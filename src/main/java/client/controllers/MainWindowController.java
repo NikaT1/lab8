@@ -4,6 +4,7 @@ import client.CityApplication;
 import client.Client;
 import client.clientUtils.CommandManager;
 import client.clientUtils.InputAndOutput;
+import javafx.animation.PathTransition;
 import javafx.animation.PauseTransition;
 import javafx.animation.ScaleTransition;
 import javafx.application.Platform;
@@ -118,7 +119,6 @@ public class MainWindowController {
             isFirst = true;
             startVisualisation();
         });
-        //mapPane.setOnMouseClicked(e -> {if (prevCircle != null) prevCircle.setFill(prevColor);});
     }
 
     public void startVisualisation() {
@@ -148,8 +148,8 @@ public class MainWindowController {
             objectId.setFont(Font.font(size));
             objectId.setStyle("-fx-font-weight: bold");
             objectId.setFill(visualMap.get(city.getOwner()).darker());
-            objectId.translateXProperty().bind(circleObject.centerXProperty().subtract(objectId.getLayoutBounds().getWidth() / 2));
-            objectId.translateYProperty().bind(circleObject.centerYProperty().add(objectId.getLayoutBounds().getHeight() / 4));
+            objectId.translateXProperty().bind(circleObject.translateXProperty().subtract(objectId.getLayoutBounds().getWidth() / 2));
+            objectId.translateYProperty().bind(circleObject.translateYProperty().add(objectId.getLayoutBounds().getHeight() / 4));
             info.setVisible(false);
             info.setWrapText(true);
             info.setPrefWidth(230);
@@ -163,21 +163,32 @@ public class MainWindowController {
             mapPane.getChildren().add(objectId);
             moveMap.put(circleObject, city.getId());
             infoMap.put(city.getId(), info);
-            ScaleTransition scaleTransition = new ScaleTransition();
-            scaleTransition.setDuration(Duration.millis(1500));
-            circleObject.setCenterX(city.getCoordinates().getX());
-            circleObject.setCenterY(city.getCoordinates().getY());
-            scaleTransition.setNode(circleObject);
-            //if (isFirst) {
-            scaleTransition.setByY(2);
-            scaleTransition.setByX(2);
-                /*} else {
-                    circleObject.setRadius(size * 1.5);
-                    scaleTransition.setByY(1.33);
-                    scaleTransition.setByX(1.33);
-                }*/
-            scaleTransition.setAutoReverse(false);
-            scaleTransition.play();
+            if (isFirst) {
+                circleObject.setRadius(size * 1.5);
+                Path path = new Path();
+                path.getElements().add(new MoveTo(-400, -400));
+                path.getElements().add(new HLineTo(city.getCoordinates().getX()));
+                path.getElements().add(new VLineTo(city.getCoordinates().getY()));
+                PathTransition pathTransition = new PathTransition();
+                pathTransition.setDuration(Duration.millis(1500));
+                pathTransition.setNode(circleObject);
+                pathTransition.setPath(path);
+                pathTransition.setOrientation(PathTransition.OrientationType.NONE);
+                pathTransition.setAutoReverse(false);
+                pathTransition.play();
+            } else {
+                objectId.translateXProperty().bind(circleObject.centerXProperty().subtract(objectId.getLayoutBounds().getWidth() / 2));
+                objectId.translateYProperty().bind(circleObject.centerYProperty().add(objectId.getLayoutBounds().getHeight() / 4));
+                ScaleTransition scaleTransition = new ScaleTransition();
+                scaleTransition.setDuration(Duration.millis(1500));
+                circleObject.setCenterX(city.getCoordinates().getX());
+                circleObject.setCenterY(city.getCoordinates().getY());
+                scaleTransition.setNode(circleObject);
+                scaleTransition.setByY(0.5);
+                scaleTransition.setByX(0.5);
+                scaleTransition.setAutoReverse(false);
+                scaleTransition.play();
+            }
         }
         for (Integer id : infoMap.keySet()) {
             mapPane.getChildren().add(infoMap.get(id));
@@ -194,7 +205,7 @@ public class MainWindowController {
                     startVisualisation();
                 });
                 try {
-                    Thread.sleep(5000);
+                    Thread.sleep(10000);
                 } catch (InterruptedException e) {
                 }
             }
@@ -216,7 +227,7 @@ public class MainWindowController {
         }
         prevCircle = circle;
         prevColor = (Color) circle.getFill();
-        circle.setFill(prevColor.brighter());
+        circle.setFill(prevColor.brighter().brighter());
     }
 
     public ObservableList<City> updateTable() {

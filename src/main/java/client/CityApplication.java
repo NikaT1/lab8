@@ -83,4 +83,9 @@ public class CityApplication extends Application {
         createClient();
         Application.launch(args);
     }
+
+    @Override
+    public void stop() {
+        System.exit(0);
+    }
 }
