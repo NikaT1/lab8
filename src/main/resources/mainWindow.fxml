@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="client.controllers.MainWindowController"
+            prefHeight="700.0" prefWidth="1300.0" style="-fx-background-color: #D0CEE2;">
+    <VBox alignment="TOP_CENTER" prefHeight="700.0" prefWidth="1300.0" AnchorPane.bottomAnchor="0.0"
+          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <HBox alignment="TOP_CENTER" prefHeight="140.0" prefWidth="1300.0" style="-fx-background-color: #DAE8FC;">
+            <Label fx:id="currentUserLabel"
+                   nodeOrientation="LEFT_TO_RIGHT" prefHeight="80.0" prefWidth="500.0" text="С возвращением, ..."
+                   style="-fx-text-fill: #3C4F6B; -fx-font-size: 20;"/>
+            <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="80.0" prefWidth="700.0"
+                     style="-fx-background-color: #DAE8FC;">
+                <Button fx:id="helpedButton" alignment="CENTER" mnemonicParsing="false"
+                        onAction="#helpedButtonClicked" prefHeight="25.0" prefWidth="150.0"
+                        text="помощь"
+                        style="-fx-background-color: #FFFFFF; -fx-text-fill: #3C4F6B; -fx-font-size: 15;"/>
+                <Button fx:id="changeUserButton" alignment="CENTER" mnemonicParsing="false"
+                        onAction="#changeButtonClicked" prefHeight="25.0" prefWidth="180.0"
+                        text="сменить пользователя"
+                        style="-fx-background-color: #FFFFFF; -fx-text-fill: #3C4F6B; -fx-font-size: 15;"/>
+                <Button fx:id="langButton" alignment="CENTER" mnemonicParsing="false"
+                        onAction="#langButtonClicked" prefHeight="25.0" prefWidth="150.0"
+                        text="настройки"
+                        style="-fx-background-color: #FFFFFF; -fx-text-fill: #3C4F6B; -fx-font-size: 15;"/>
+            </ToolBar>
+        </HBox>
+        <FlowPane alignment="CENTER" columnHalignment="CENTER" hgap="10.0" vgap="10.0" prefHeight="160.0"
+                  prefWidth="932.0">
+            <Button fx:id="addButton" mnemonicParsing="false" onAction="#addButtonClicked" prefHeight="30.0"
+                    prefWidth="150.0" text="add" style="-fx-background-color: #F3EDFC;"/>
+            <Button fx:id="addIfMinButton" mnemonicParsing="false" onAction="#addIfMinButtonClicked"
+                    prefHeight="30.0" prefWidth="150.0" text="addIfMin"
+                    style="-fx-background-color: #F3EDFC;"/>
+            <Button fx:id="addIfMaxButton" mnemonicParsing="false" onAction="#addIfMaxButtonClicked"
+                    prefHeight="30.0" prefWidth="150.0" text="addIfMax"
+                    style="-fx-background-color: #F3EDFC;"/>
+            <Button fx:id="averageOfMetersAboveSeaLevelButton" mnemonicParsing="false"
+                    onAction="#averageOfMetersAboveSeaLevelButtonClicked" prefHeight="30.0" prefWidth="200.0"
+                    text="averageOfMetersAboveSeaLevel"
+                    style="-fx-background-color: #F3EDFC;"/>
+            <Button fx:id="clearButton" mnemonicParsing="false" onAction="#clearButtonClicked" prefHeight="30.0"
+                    prefWidth="150.0" text="clear" style="-fx-background-color: #F3EDFC;"/>
+            <Button fx:id="removeHeadButton" mnemonicParsing="false" onAction="#removeHeadButtonClicked"
+                    prefHeight="30.0" prefWidth="150.0" text="removeHead"
+                    style="-fx-background-color: #F3EDFC;"/>
+            <Button fx:id="executeScriptButton" mnemonicParsing="false" onAction="#executeScriptButtonClicked"
+                    prefHeight="30.0" prefWidth="150.0" text="executeScript"
+                    style="-fx-background-color: #F3EDFC;"/>
+            <Button fx:id="groupCountingByMetersAboveSeaLevelButton" mnemonicParsing="false"
+                    onAction="#groupCountingByMetersAboveSeaLevelButtonClicked" prefHeight="30.0"
+                    prefWidth="250.0" text="groupCountingByMetersAboveSeaLevel"
+                    style="-fx-background-color: #F3EDFC;"/>
+            <Button fx:id="infoButton" mnemonicParsing="false" onAction="#infoButtonClicked" prefHeight="30.0"
+                    prefWidth="150.0" text="info" style="-fx-background-color: #F3EDFC;"/>
+            <Button fx:id="removeByIdButton" mnemonicParsing="false" onAction="#removeByIdButtonClicked"
+                    prefHeight="30.0" prefWidth="150.0" text="removeById"
+                    style="-fx-background-color: #F3EDFC;"/>
+            <Button fx:id="updateIdButton" mnemonicParsing="false" onAction="#updateIdButtonClicked"
+                    prefHeight="30.0" prefWidth="150.0" text="updateId"
+                    style="-fx-background-color: #F3EDFC;"/>
+            <VBox alignment="BASELINE_CENTER" nodeOrientation="LEFT_TO_RIGHT"/>
+        </FlowPane>
+        <TabPane prefHeight="600.0" prefWidth="900.0" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS"
+                 style="-fx-background-color: #DAE8FC;">
+            <Tab fx:id="tableTab" text="таблица" style="-fx-background-color: #DAE8FC; -fx-border-color: #6C8EBF">
+                <AnchorPane prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #DAE8FC;">
+                    <TableView fx:id="tableView" prefHeight="598.0" prefWidth="445.0"
+                               style="-fx-background-color: #DAE8FC;" AnchorPane.bottomAnchor="0.0"
+                               AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                               AnchorPane.topAnchor="0.0">
+                        <columns>
+                            <TableColumn fx:id="idColumn" prefWidth="50.0" text="id"
+                                         style="-fx-background-color: #FFFFFF; -fx-border-color: #6C8EBF"/>
+                            <TableColumn fx:id="nameColumn" prefWidth="70.0" text="name"
+                                         style="-fx-background-color: #FFFFFF; -fx-border-color: #6C8EBF"/>
+                            <TableColumn fx:id="xColumn" prefWidth="50.0" text="x"
+                                         style="-fx-background-color: #FFFFFF; -fx-border-color: #6C8EBF"/>
+                            <TableColumn fx:id="yColumn" prefWidth="50.0" text="y"
+                                         style="-fx-background-color: #FFFFFF; -fx-border-color: #6C8EBF"/>
+                            <TableColumn fx:id="creationDateColumn" prefWidth="120.0" text="creation date"
+                                         style="-fx-background-color: #FFFFFF; -fx-border-color: #6C8EBF"/>
+                            <TableColumn fx:id="areaColumn" prefWidth="90.0" text="area"
+                                         style="-fx-background-color: #FFFFFF; -fx-border-color: #6C8EBF"/>
+                            <TableColumn fx:id="populationColumn" prefWidth="120.0"
+                                         text="population"
+                                         style="-fx-background-color: #FFFFFF; -fx-border-color: #6C8EBF"/>
+                            <TableColumn fx:id="metersAboveSeaLevelColumn" prefWidth="195.0"
+                                         text="metersAboveSeaLevel"
+                                         style="-fx-background-color: #FFFFFF; -fx-border-color: #6C8EBF"/>
+                            <TableColumn fx:id="establishmentDateColumn" prefWidth="150.0" text="establishmentDate"
+                                         style="-fx-background-color: #FFFFFF; -fx-border-color: #6C8EBF"/>
+                            <TableColumn fx:id="agglomerationColumn" prefWidth="150.0" text="agglomeration"
+                                         style="-fx-background-color: #FFFFFF; -fx-border-color: #6C8EBF"/>
+                            <TableColumn fx:id="climateColumn" prefWidth="100.0" text="climate"
+                                         style="-fx-background-color: #FFFFFF; -fx-border-color: #6C8EBF"/>
+                            <TableColumn fx:id="ageColumn" prefWidth="70.0"
+                                         text="age"
+                                         style="-fx-background-color: #FFFFFF; -fx-border-color: #6C8EBF"/>
+                            <TableColumn fx:id="ownerColumn" text="owner"
+                                         style="-fx-background-color: #FFFFFF; -fx-border-color: #6C8EBF"/>
+                        </columns>
+                    </TableView>
+                </AnchorPane>
+            </Tab>
+            <Tab fx:id="mapTab" text="визуализация" style="-fx-background-color: #DAE8FC; -fx-border-color: #6C8EBF">
+                    <AnchorPane fx:id="mapPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0"
+                                prefWidth="200.0"
+                                style="-fx-background-color: #DAE8FC, linear-gradient(from 0.6px 0.0px to 12px  0.0px, repeat, #808080 5%, transparent 5%),
+                            linear-gradient(from 0.0px 0.5px to  0.0px 10.5px, repeat, #808080 5%, transparent 5%);">
+                        <AnchorPane layoutX="-3.0" layoutY="-3.0" prefHeight="467.0" prefWidth="921.0"/>
+                    </AnchorPane>
+            </Tab>
+        </TabPane>
+    </VBox>
+</AnchorPane>

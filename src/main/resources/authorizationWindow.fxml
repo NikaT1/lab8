@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="client.controllers.AuthorizationWindowController"
+            prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #dae8fc;">
+    <Label fx:id="authLabel" alignment="CENTER" layoutX="200.0" layoutY="20.0" prefHeight="67.0" prefWidth="208.0"
+           text="Вход в систему:" textAlignment="CENTER">
+        <font>
+            <Font size="25.0"/>
+        </font>
+    </Label>
+    <TextField fx:id="userLogin" layoutX="180.0" layoutY="120.0" maxWidth="350.0" minHeight="-Infinity"
+                   prefHeight="36.0" prefWidth="250.0" promptText="Логин"/>
+    <PasswordField fx:id="password" layoutX="180.0" layoutY="185.0" maxWidth="500.0"
+                   minHeight="-Infinity" prefHeight="36.0" prefWidth="250.0"
+                   promptText="Пароль"/>
+    <Button fx:id="logBut" layoutX="180.0" layoutY="255.0" mnemonicParsing="false" onAction="#logButClicked"
+            prefHeight="36.0" prefWidth="100.0" text="Войти" style="-fx-background-color: #ffffff;"/>
+    <Button fx:id="regBut" layoutX="299.0" layoutY="255.0" mnemonicParsing="false" onAction="#regButClicked"
+            prefHeight="36.0" prefWidth="131.0" text="Создать аккаунт" style="-fx-background-color: #eaf1fc;"/>
+</AnchorPane>
