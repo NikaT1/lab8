@@ -38,17 +38,17 @@ public class AddIfMax extends Command {
                 if (priorityQueue.getCollection().stream().max(City::compareTo).isPresent()) {
                     if (city.getArea() > priorityQueue.getCollection().stream().max(City::compareTo).get().getArea()) {
                         priorityQueue.addToCollection(city, getUser());
-                        result.append("В коллекцию добавлен новый элемент: ").append(city.toString());
+                        result.append("OkAdd");
                         status = Status.SUCCESSFUL;
-                    } else result.append("В коллекцию не добавлен элемент: ").append(city.toString());
+                    } else result.append("NotAdd");
                 } else {
                     priorityQueue.addToCollection(city, getUser());
-                    result.append("В коллекцию добавлен новый элемент: ").append(city.toString());
+                    result.append("OkAdd");
                     status = Status.SUCCESSFUL;
                 }
             }
         } catch (ClassNotFoundException | SQLException | ParseException e) {
-            result.append("Возникла ошибка при попытке соединения с БД, новый объект не добавлен");
+            result.append("DBError");
             status = Status.ERROR;
         }
         return Serialization.serializeData(new WrapperForObjects(result.toString(), DescriptionForObject.ANSWER, status));

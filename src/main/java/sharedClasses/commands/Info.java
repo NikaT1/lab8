@@ -25,8 +25,7 @@ public class Info extends Command {
      * @param priorityQueue хранимая коллекция.
      */
     public byte[] doCommand(IOInterface ioForClient, StorageInterface<City> priorityQueue) {
-        String result = "тип: " + priorityQueue.getCollection().getClass() + '\n' + "дата инициализации: " + priorityQueue.getCreationDate() + '\n' +
-                "количество элементов: " + priorityQueue.getCollection().size();
+        String[] result = {String.valueOf(priorityQueue.getCollection().getClass()), String.valueOf(priorityQueue.getCreationDate()), String.valueOf(priorityQueue.getCollection().size())};
         return Serialization.serializeData(new WrapperForObjects(result, DescriptionForObject.ANSWER, Status.SUCCESSFUL));
     }
 }

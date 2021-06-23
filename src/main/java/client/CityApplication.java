@@ -22,11 +22,13 @@ public class CityApplication extends Application {
     private Stage stage;
     private LocalizationTool localizationTool;
     private AuthorizationWindowController authcontroller;
+    private boolean isFirst = true;
 
     @Override
     public void start(Stage stage) throws IOException {
         try {
-            localizationTool = new LocalizationTool(ResourceBundle.getBundle("client.clientUtils.bundles.gui", new Locale("ru", "RU")));
+            client.setCityApplication(this);
+            if (isFirst) localizationTool = new LocalizationTool(ResourceBundle.getBundle("client.clientUtils.bundles.gui", new Locale("ru", "RU")));
             this.stage = stage;
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/authorizationWindow.fxml"));
@@ -35,12 +37,12 @@ public class CityApplication extends Application {
             authcontroller.setClient(client);
             authcontroller.setLocalizationTool(localizationTool);
             authcontroller.setCityApplication(this);
+            authcontroller.changeLang();
             stage.setScene(new Scene(root));
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     public void returnAuthWindow() throws IOException {
@@ -48,50 +50,45 @@ public class CityApplication extends Application {
     }
 
     public void startMainWindow() throws IOException {
-            commandManager = new CommandManager(client, localizationTool);
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/mainWindow.fxml"));
-            Parent root = loader.load();
-            MainWindowController controller = loader.getController();
-            controller.setClient(client);
-            controller.setCommandManager(commandManager);
-            controller.setCityApplication(this);
-            controller.setLocalizationTool(localizationTool);
-            controller.setAuthorizationWindow(authcontroller);
-            controller.init();
-            FXMLLoader popUpWindowLoader = new FXMLLoader(CityApplication.class.getResource("/popUpWindow.fxml"));
-            Parent popUpWindowRootNode = popUpWindowLoader.load();
-            Scene popUpWindowScene = new Scene(popUpWindowRootNode);
-            Stage popUpStage = new Stage();
-            popUpStage.setScene(popUpWindowScene);
-            PopUpWindowController popController = popUpWindowLoader.getController();
-            popController.setClient(client);
-            popController.setCityApplication(this);
-            popController.setPopUpStage(popUpStage);
-            popUpStage.setResizable(false);
-            popUpStage.setTitle(localizationTool.getString("ProgName"));
-            popController.setLocalizationTool(localizationTool);
-            popController.changeLang();
-            controller.setPopUpWindowController(popController);
-            popController.setCommandManager(commandManager);
-            popController.setParentController(controller);
-            stage.setTitle(localizationTool.getString("ProgName"));
-            stage.setScene(new Scene(root));
-            controller.changeHello(client.getUser().getLogin());
-            stage.setResizable(false);
-            stage.show();
-            controller.startUpdate();
+        isFirst = false;
+        commandManager = new CommandManager(client, localizationTool);
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/mainWindow.fxml"));
+        Parent root = loader.load();
+        MainWindowController controller = loader.getController();
+        controller.setClient(client);
+        controller.setCommandManager(commandManager);
+        controller.setCityApplication(this);
+        controller.setLocalizationTool(localizationTool);
+        controller.setAuthorizationWindow(authcontroller);
+        controller.init();
+
+        FXMLLoader popUpWindowLoader = new FXMLLoader(CityApplication.class.getResource("/popUpWindow.fxml"));
+        Parent popUpWindowRootNode = popUpWindowLoader.load();
+        Scene popUpWindowScene = new Scene(popUpWindowRootNode);
+        Stage popUpStage = new Stage();
+        popUpStage.setScene(popUpWindowScene);
+        PopUpWindowController popController = popUpWindowLoader.getController();
+        popController.setPopUpStage(popUpStage);
+        popUpStage.setResizable(false);
+        popUpStage.setTitle(localizationTool.getString("ProgName"));
+        popController.setLocalizationTool(localizationTool);
+        popController.changeLang();
+        controller.setPopUpWindowController(popController);
+        popController.setCommandManager(commandManager);
+        popController.setParentController(controller);
+
+        stage.setTitle(localizationTool.getString("ProgName"));
+        stage.setScene(new Scene(root));
+        controller.changeHello(client.getUser().getLogin());
+        stage.setResizable(false);
+        stage.show();
+        controller.startUpdate();
     }
 
-    public static boolean createClient() {
-        boolean flag = true;
-        try {
-            client = new Client();
-            client.start();
-        } catch (Exception e) {
-            flag = false;
-        }
-        return flag;
+    public static void createClient() {
+        client = new Client();
+        client.start();
     }
 
     public static void main(String[] args) {

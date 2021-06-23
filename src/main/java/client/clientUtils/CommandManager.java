@@ -36,18 +36,16 @@ public class CommandManager {
         return list;
     }
 
-    public ObservableList<City> addToCollection(City city, String com) {
-        ObservableList<City> list;
-        ArrayList<City> coll = new ArrayList<>();
+    public WrapperForObjects addToCollection(City city, String com) {
+        WrapperForObjects wrapObject = null;
         Command command = commandsControl.getCommands().get(com);
         command.setCity(city);
         try {
-            coll = (ArrayList<City>) client.execute(command).getObject();
+            wrapObject = client.execute(command);
         } catch (IOException e) {
             System.exit(-1);
         }
-        list = FXCollections.observableArrayList(coll);
-        return list;
+        return wrapObject;
     }
 
     public Optional<String> askArg(String s) {
@@ -56,8 +54,7 @@ public class CommandManager {
         dialog.setHeaderText(null);
         dialog.setContentText(localizationTool.getString(s));
         dialog.setResizable(false);
-        Optional<String> result = dialog.showAndWait();
-        return result;
+        return dialog.showAndWait();
     }
 
     public WrapperForObjects getInfoAboutCollectionWithArg(String com, String arg) {
@@ -72,7 +69,7 @@ public class CommandManager {
         return wrapObject;
     }
 
-    public ObservableList<City> getInfoAboutCollectionWithArgs(String com, String arg, City city) {
+    public WrapperForObjects getInfoAboutCollectionWithArgs(String com, String arg, City city) {
         Command command = commandsControl.getCommands().get(com);
         command.setArgument(arg);
         command.setCity(city);
@@ -82,11 +79,7 @@ public class CommandManager {
         } catch (IOException e) {
             System.exit(-1);
         }
-        ObservableList<City> list;
-        ArrayList<City> coll = new ArrayList<>();
-        coll = (ArrayList<City>) wrapObject.getObject();
-        list = FXCollections.observableArrayList(coll);
-        return list;
+        return wrapObject;
     }
 
     public WrapperForObjects getInfoAboutCollection(String com) {

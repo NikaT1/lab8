@@ -39,17 +39,17 @@ public class AddIfMin extends Command {
                     City minCity = priorityQueue.getCollection().stream().min(Comparator.comparingInt(City::getArea)).get();
                     if (city.getArea() < minCity.getArea()) {
                         priorityQueue.addToCollection(city, getUser());
-                        result.append("В коллекцию добавлен новый элемент: ").append(city.toString());
+                        result.append("OkAdd");
                         status = Status.SUCCESSFUL;
-                    } else result.append("В коллекцию не добавлен элемент: ").append(city.toString());
+                    } else result.append("NotAdd");
                 } else {
                     priorityQueue.addToCollection(city, getUser());
-                    result.append("В коллекцию добавлен новый элемент: ").append(city.toString());
+                    result.append("OkAdd");
                     status = Status.SUCCESSFUL;
                 }
             }
         } catch (ClassNotFoundException | SQLException | ParseException e) {
-            result.append("Возникла ошибка при попытке соединения с БД, новый объект не добавлен");
+            result.append("DBError");
             status = Status.ERROR;
         }
         return Serialization.serializeData(new WrapperForObjects(result.toString(), DescriptionForObject.ANSWER, status));

@@ -6,6 +6,7 @@ import javafx.scene.control.TextArea;
 import javafx.stage.Modality;
 import sharedClasses.utils.IOInterface;
 
+import java.text.MessageFormat;
 import java.util.Optional;
 
 /**
@@ -27,7 +28,9 @@ public class InputAndOutput implements IOInterface {
     public InputAndOutput(boolean printMessages) {
         this.printMessages = printMessages;
     }
-    public InputAndOutput(){}
+
+    public InputAndOutput() {
+    }
 
     /**
      * Метод, устанавливающий вид взаимодействия с пользователем.
@@ -55,9 +58,21 @@ public class InputAndOutput implements IOInterface {
         return false;
     }
 
+    public void outputWithArgs(String s, String title, String header, String[] args, Alert.AlertType type) {
+        if (!args[0].equals("Empty")) {
+            MessageFormat messageFormat = new MessageFormat(localizationTool.getResource().getString(s));
+            String text = messageFormat.format(args);
+            Alert alert = new Alert(type);
+            alert.setTitle(localizationTool.getString(title));
+            alert.setHeaderText(localizationTool.getString(header));
+            alert.setContentText(text);
+            alert.showAndWait();
+        } else output(s, title, header, type);
+    }
+
     public void output(String text, String title, String header, Alert.AlertType type) {
         Alert alert = new Alert(type);
-        if (type== Alert.AlertType.ERROR) alert.initModality(Modality.APPLICATION_MODAL);
+        if (type == Alert.AlertType.ERROR) alert.initModality(Modality.APPLICATION_MODAL);
         alert.setTitle(localizationTool.getString(title));
         alert.setHeaderText(localizationTool.getString(header));
         alert.setContentText(localizationTool.getString(text));
@@ -66,7 +81,7 @@ public class InputAndOutput implements IOInterface {
 
     public void longOutput(String text, String title, String header, Alert.AlertType type) {
         Alert alert = new Alert(type);
-        if (type== Alert.AlertType.ERROR) alert.initModality(Modality.APPLICATION_MODAL);
+        if (type == Alert.AlertType.ERROR) alert.initModality(Modality.APPLICATION_MODAL);
         alert.setTitle(localizationTool.getString(title));
         alert.setHeaderText(localizationTool.getString(header));
         alert.setContentText(localizationTool.getString(text));

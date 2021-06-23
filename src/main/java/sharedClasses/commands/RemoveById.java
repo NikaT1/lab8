@@ -29,7 +29,7 @@ public class RemoveById extends Command {
      * @param priorityQueue хранимая коллекция.
      */
     public byte[] doCommand(IOInterface ioForClient, StorageInterface<City> priorityQueue) {
-        StringBuilder result = new StringBuilder();
+        String result;
         Status status = Status.WARN;
         synchronized (priorityQueue.getCollection()) {
             try {
@@ -40,19 +40,18 @@ public class RemoveById extends Command {
                 if (cities.size() > 0) {
                     boolean flag = priorityQueue.remove(cities.get(0), getUser());
                     if (flag) {
-                        result.append("удаление элемента успешно завершено");
+                        result = "OkRemove";
                         status = Status.SUCCESSFUL;
-                    }
-                    else result.append("удаление элемента не выполнено!");
-                } else result.append("Элемент с id ").append(id).append(" не существует");
+                    } else result = "NotRemove";
+                } else result = "WrongId";
             } catch (NumberFormatException e) {
-                result.append("неправильный формат id");
+                result = "IDError";
                 status = Status.ERROR;
             } catch (SQLException e) {
-                result.append("ошибка при попытке удаления значения из БД; удаление не выполнено");
+                result = "DBError";
                 status = Status.ERROR;
             }
         }
-        return Serialization.serializeData(new WrapperForObjects(result.toString(), DescriptionForObject.ANSWER, status));
+        return Serialization.serializeData(new WrapperForObjects(result, DescriptionForObject.ANSWER, status));
     }
 }

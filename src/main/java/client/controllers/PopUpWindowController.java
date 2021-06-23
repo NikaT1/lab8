@@ -1,12 +1,9 @@
 package client.controllers;
 
-import client.CityApplication;
-import client.Client;
 import client.clientUtils.CommandManager;
 import client.clientUtils.InputAndOutput;
 import client.clientUtils.LocalizationTool;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
@@ -20,8 +17,6 @@ import sharedClasses.elementsOfCollection.Coordinates;
 import sharedClasses.elementsOfCollection.Human;
 import sharedClasses.utils.WrapperForObjects;
 
-import javax.swing.*;
-import java.awt.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -81,15 +76,9 @@ public class PopUpWindowController {
     private GridPane gridPane;
     private boolean flag;
     private CommandManager commandManager;
-    private Client client;
-    private CityApplication cityApplication;
     private final InputAndOutput inputAndOutput = new InputAndOutput();
     private MainWindowController parentController;
     private LocalizationTool localizationTool;
-
-    public void setClient(Client client) {
-        this.client = client;
-    }
 
     public void makeAddWindow(String s) {
         instructionLabel.setText(s);
@@ -119,7 +108,7 @@ public class PopUpWindowController {
     private String readName() {
         String s = name.getText();
         if (s == null || s.equals("")) {
-            inputAndOutput.output("Имя введено неверно", "Внимание!", null, Alert.AlertType.ERROR);
+            inputAndOutput.output("Имя введено неверно", "Warn", null, Alert.AlertType.ERROR);
             name.clear();
             flag = false;
         }
@@ -131,12 +120,12 @@ public class PopUpWindowController {
         try {
             s = Integer.parseInt(area.getText());
             if (s <= 0) {
-                inputAndOutput.output("Размер территории введен неверно", "Внимание!", null, Alert.AlertType.ERROR);
+                inputAndOutput.output("Размер территории введен неверно", "Warn", null, Alert.AlertType.ERROR);
                 area.clear();
                 flag = false;
             }
         } catch (NumberFormatException ex) {
-            inputAndOutput.output("Размер территории введен неверно", "Внимание!", null, Alert.AlertType.ERROR);
+            inputAndOutput.output("Размер территории введен неверно", "Warn", null, Alert.AlertType.ERROR);
             area.clear();
             flag = false;
         }
@@ -149,12 +138,12 @@ public class PopUpWindowController {
         try {
             s = Long.parseLong(population.getText());
             if (s <= 0) {
-                inputAndOutput.output("Численность населения введена неверно", "Внимание!", null, Alert.AlertType.ERROR);
+                inputAndOutput.output("WrongPop", "Warn", null, Alert.AlertType.ERROR);
                 population.clear();
                 flag = false;
             }
         } catch (NumberFormatException e) {
-            inputAndOutput.output("Численность населения введена неверно", "Внимание!", null, Alert.AlertType.ERROR);
+            inputAndOutput.output("WrongPop", "Warn", null, Alert.AlertType.ERROR);
             population.clear();
             flag = false;
         }
@@ -171,7 +160,7 @@ public class PopUpWindowController {
         try {
             s = Long.parseLong(text);
         } catch (NumberFormatException e) {
-            inputAndOutput.output("Дата введена неверно", "Внимание!", null, Alert.AlertType.ERROR);
+            inputAndOutput.output("", "Warn", null, Alert.AlertType.ERROR);
             metersAboveSeaLevel.clear();
             flag = false;
         }
@@ -188,7 +177,7 @@ public class PopUpWindowController {
         try {
             s = formatter.parse(text);
         } catch (ParseException e) {
-            inputAndOutput.output("Дата введена неверно", "Внимание!", null, Alert.AlertType.ERROR);
+            inputAndOutput.output("WrongDate", "Warn", null, Alert.AlertType.ERROR);
             flag = false;
         }
         return s;
@@ -203,7 +192,7 @@ public class PopUpWindowController {
         try {
             s = Integer.parseInt(text);
         } catch (NumberFormatException e) {
-            inputAndOutput.output("Размер агломерации введен неверно", "Внимание!", null, Alert.AlertType.ERROR);
+            inputAndOutput.output("WrongAgl", "Warn", null, Alert.AlertType.ERROR);
             agglomeration.clear();
             flag = false;
         }
@@ -215,7 +204,7 @@ public class PopUpWindowController {
         try {
             s = climateBox.getValue();
         } catch (IllegalArgumentException ex) {
-            inputAndOutput.output("Климат введен неверно", "Внимание!", null, Alert.AlertType.ERROR);
+            inputAndOutput.output("WrongClimate", "Warn", null, Alert.AlertType.ERROR);
             flag = false;
         }
         return s;
@@ -230,12 +219,12 @@ public class PopUpWindowController {
         try {
             s = Integer.parseInt(text);
             if (s <= 0) {
-                inputAndOutput.output("Возраст введен неверно", "Внимание!", null, Alert.AlertType.ERROR);
+                inputAndOutput.output("WrongAge", "Warn", null, Alert.AlertType.ERROR);
                 age.clear();
                 flag = false;
             }
         } catch (NumberFormatException ex) {
-            inputAndOutput.output("Возраст введен неверно", "Внимание!", null, Alert.AlertType.ERROR);
+            inputAndOutput.output("WrongAge", "Warn", null, Alert.AlertType.ERROR);
             age.clear();
             flag = false;
         }
@@ -249,24 +238,24 @@ public class PopUpWindowController {
         try {
             sx = Float.parseFloat(x.getText());
             if (sx <= -724) {
-                inputAndOutput.output("Координата введена неверно", "Внимание!", null, Alert.AlertType.ERROR);
+                inputAndOutput.output("WrongCoord", "Warn", null, Alert.AlertType.ERROR);
                 x.clear();
                 flag = false;
             }
         } catch (NumberFormatException e) {
-            inputAndOutput.output("Численность населения введена неверно", "Внимание!", null, Alert.AlertType.ERROR);
+            inputAndOutput.output("WrongCoord", "Warn", null, Alert.AlertType.ERROR);
             x.clear();
             flag = false;
         }
         try {
             sy = Integer.parseInt(y.getText());
             if (sy <= -989) {
-                inputAndOutput.output("Численность населения введена неверно", "Внимание!", null, Alert.AlertType.ERROR);
+                inputAndOutput.output("WrongCoord", "Warn", null, Alert.AlertType.ERROR);
                 y.clear();
                 flag = false;
             }
         } catch (NumberFormatException ex) {
-            inputAndOutput.output("Численность населения введена неверно", "Внимание!", null, Alert.AlertType.ERROR);
+            inputAndOutput.output("WrongCoord", "Warn", null, Alert.AlertType.ERROR);
             y.clear();
             flag = false;
         }
@@ -277,8 +266,9 @@ public class PopUpWindowController {
     public void buttonAddClicked() {
         City city = processingFields();
         if (flag) {
-            ObservableList<City> list = commandManager.addToCollection(city, "add");
-            parentController.changeCollection(list);
+            WrapperForObjects wrapObject = commandManager.addToCollection(city, "add");
+            parentController.outputResult(wrapObject);
+            parentController.changeCollection(parentController.updateTable());
             parentController.startVisualisation();
         }
     }
@@ -290,8 +280,9 @@ public class PopUpWindowController {
     public void buttonAddIfMinClicked() {
         City city = processingFields();
         if (flag) {
-            ObservableList<City> list = commandManager.addToCollection(city, "add_if_min");
-            parentController.changeCollection(list);
+            WrapperForObjects wrapObject = commandManager.addToCollection(city, "add_if_min");
+            parentController.outputResult(wrapObject);
+            parentController.changeCollection(parentController.updateTable());
             parentController.startVisualisation();
         }
     }
@@ -299,8 +290,9 @@ public class PopUpWindowController {
     public void buttonAddIfMaxClicked() {
         City city = processingFields();
         if (flag) {
-            ObservableList<City> list = commandManager.addToCollection(city, "add_if_max");
-            parentController.changeCollection(list);
+            WrapperForObjects wrapObject = commandManager.addToCollection(city, "add_if_max");
+            parentController.outputResult(wrapObject);
+            parentController.changeCollection(parentController.updateTable());
             parentController.startVisualisation();
         }
     }
@@ -309,8 +301,9 @@ public class PopUpWindowController {
         City city = processingFields();
         if (flag) {
             close();
-            ObservableList<City> list = commandManager.getInfoAboutCollectionWithArgs("update", arg, city);
-            parentController.changeCollection(list);
+            WrapperForObjects wrapObject = commandManager.getInfoAboutCollectionWithArgs("update", arg, city);
+            parentController.outputResult(wrapObject);
+            parentController.changeCollection(parentController.updateTable());
             parentController.startVisualisation();
         }
     }
@@ -335,10 +328,6 @@ public class PopUpWindowController {
         this.popUpStage = popUpStage;
         climateBox.getItems().addAll(FXCollections.observableArrayList(Climate.values()));
         buttonBack.setOnAction(e -> popUpStage.close());
-    }
-
-    public void setCityApplication(CityApplication cityApplication) {
-        this.cityApplication = cityApplication;
     }
 
     public void setCommandManager(CommandManager commandManager) {

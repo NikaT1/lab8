@@ -24,16 +24,8 @@ public class Show extends Command {
      * @param priorityQueue хранимая коллекция.
      */
     public byte[] doCommand(IOInterface ioForClient, StorageInterface<City> priorityQueue) {
-        StringBuilder result = new StringBuilder();
         Status status = Status.WARN;
-        if (priorityQueue.getCollection().isEmpty()) result.append("Коллекция пуста").append('\n');
-        else {
-            /*priorityQueue.getCollection().stream().
-                    sorted((city1, city2) -> city2.getName().compareTo(city1.getName())).
-                    forEach(city -> result.append(city.toString()).append('\n'));*/
-            status = Status.SUCCESSFUL;
-        }
-        //result.delete(result.length() - 1, result.length());
+        if (!priorityQueue.getCollection().isEmpty()) status = Status.SUCCESSFUL;
         return Serialization.serializeData(new WrapperForObjects(priorityQueue.getArrayList(), DescriptionForObject.ANSWER, status));
     }
 }

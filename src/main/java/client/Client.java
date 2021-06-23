@@ -26,10 +26,15 @@ public class Client {
     private final InputAndOutput inputAndOutput;
     private final String host = "localhost";
     private User user;
+    private CityApplication cityApplication;
 
     public Client() {
         inputAndOutput = new InputAndOutput(true);
         serialization = new Serialization();
+    }
+
+    public void setCityApplication(CityApplication cityApplication) {
+        this.cityApplication = cityApplication;
     }
 
     private void initialize() throws IOException {
@@ -46,8 +51,9 @@ public class Client {
                 connect(host, 1200);
                 flag = false;
             } catch (IOException e) {
-                inputAndOutput.output("Соединение не установлено", "Ошибка", null, Alert.AlertType.ERROR);
-                flag = inputAndOutput.readAnswer("Повторить попытку? (yes/no)", "Повторное подключение", null, Alert.AlertType.INFORMATION);
+                inputAndOutput.output("ConnectError", "Error", null, Alert.AlertType.ERROR);
+                flag = inputAndOutput.readAnswer("TryToConnect", "Warn", null, Alert.AlertType.INFORMATION);
+                if (!flag) cityApplication.stop();
             }
         }
     }
@@ -70,16 +76,6 @@ public class Client {
     }
 
     private void sendCommand(Command command) throws IOException {
-        /*if (s.length > 0 && commandsControl.getCommands().containsKey(s[0])) {
-            currentCommand = commandsControl.getCommands().get(s[0]);
-            if (currentCommand.getAmountOfArguments() > 0) {
-                currentCommand.setArgument(s[1]);
-            }
-            if (currentCommand.isNeedCity()) {
-                City city = userInput.readCity();
-                city.setOwner(user.getLogin());
-                currentCommand.setCity(city);
-            }*/
         WrapperForObjects object = new WrapperForObjects(command, DescriptionForObject.COMMAND);
         byte[] ser = Serialization.serializeData(object);
         if (ser != null) {
@@ -110,25 +106,21 @@ public class Client {
                 datagramChannel.send(buffer, socketAddress);
             }
         } catch (Exception e) {
-            inputAndOutput.output("Произошла непредвиденная ошибка", "Внимание!", null, Alert.AlertType.ERROR);
-            e.printStackTrace();
-            //System.exit(-1);
+            inputAndOutput.output("FatalError", "Error", null, Alert.AlertType.ERROR);
+            cityApplication.stop();
         }
         try {
             Thread.sleep(300);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        } catch (InterruptedException e) {}
         datagramChannel.register(selector, SelectionKey.OP_READ);
         selector.select();
         WrapperForObjects answer = outputAnswer();
         if (answer == null) {
-            inputAndOutput.output("Ошибка сериализации команды; команда не выполнена", "Ошибка", null, Alert.AlertType.ERROR);
+            inputAndOutput.output("SerialError", "Error", null, Alert.AlertType.ERROR);
             return false;
-            //  System.exit(-1);
         }
         if (answer.getStatus() == Status.ERROR) {
-            inputAndOutput.output((String) answer.getObject(), "Внимание!", null, Alert.AlertType.INFORMATION);
+            inputAndOutput.output((String) answer.getObject(), "Warn", null, Alert.AlertType.INFORMATION);
             return false;
         }
         user = (User) wrapUser.getObject();
@@ -143,12 +135,12 @@ public class Client {
         Set keys = selector.selectedKeys();
         keys.clear();
         datagramChannel.register(selector, SelectionKey.OP_WRITE);
-        try {
-            sendCommand(command);
-        } catch (Exception e) {
-            inputAndOutput.output("Произошла непредвиденная ошибка", "Внимание!", null, Alert.AlertType.ERROR);
-            e.printStackTrace();
-        }
+        //try {
+        sendCommand(command);
+        //} catch (Exception e) {
+        //    inputAndOutput.output("Произошла непредвиденная ошибка", "Внимание!", null, Alert.AlertType.ERROR);
+         //   cityApplication.stop();
+        //}
         datagramChannel.register(selector, SelectionKey.OP_READ);
         selector.select();
         return outputAnswer();

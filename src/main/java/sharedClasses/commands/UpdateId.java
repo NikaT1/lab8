@@ -29,7 +29,7 @@ public class UpdateId extends Command {
      * @param priorityQueue хранимая коллекция.
      */
     public byte[] doCommand(IOInterface ioForClient, StorageInterface<City> priorityQueue) {
-        StringBuilder result = new StringBuilder();
+        String result;
         Status status = Status.WARN;
         synchronized (priorityQueue.getCollection()) {
             try {
@@ -40,19 +40,18 @@ public class UpdateId extends Command {
                 if (cities.size() > 0) {
                     City city = getCity();
                     if (priorityQueue.update(cities.get(0), city, id, getUser())) {
-                        result.append("обновление элемента успешно завершено");
+                        result = "OkUpdate";
                         status = Status.SUCCESSFUL;
-                    }
-                    else result.append("обновление элемента не осуществлено!");
-                } else result.append("Элемент с id ").append(id).append(" не существует");
+                    } else result = "NotUpdate";
+                } else result = "WrongId";
             } catch (NumberFormatException e) {
-                result.append("неправильный формат id");
+                result = "IDError";
                 status = Status.ERROR;
             } catch (SQLException e) {
-                result.append("Возникла ошибка при попытке соединения с БД, объект не обновлен");
+                result = "DBError";
                 status = Status.ERROR;
             }
         }
-        return Serialization.serializeData(new WrapperForObjects(priorityQueue.getArrayList(), DescriptionForObject.ANSWER, status));
+        return Serialization.serializeData(new WrapperForObjects(result, DescriptionForObject.ANSWER, status));
     }
 }

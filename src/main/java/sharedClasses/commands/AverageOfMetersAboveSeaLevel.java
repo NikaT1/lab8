@@ -4,8 +4,6 @@ package sharedClasses.commands;
 import sharedClasses.elementsOfCollection.City;
 import sharedClasses.utils.*;
 
-import javax.lang.model.type.ErrorType;
-
 /**
  * Класс для команды average_of_meters_above_sea_level, которая выводит среднее значение поля metersAboveSeaLevel
  * для всех элементов коллекции.
@@ -31,15 +29,17 @@ public class AverageOfMetersAboveSeaLevel extends Command {
         StringBuilder result = new StringBuilder();
         Status status = Status.WARN;
         if (priorityQueue.getCollection().isEmpty())
-            result.append("Коллекция пуста; среднее значение поля metersAboveSeaLevel установить невозможно");
+            result.append("Empty");
         else {
             double answer = priorityQueue.getCollection().stream().
                     filter(city -> city.getMetersAboveSeaLevel() != null)
                     .mapToLong(City::getMetersAboveSeaLevel).average().getAsDouble();
             String numberResult = String.format("%.3f", answer);
-            result.append("Среднее значение поля metersAboveSeaLevel для всех элементов коллекции: ").append(numberResult);
+            result.append(numberResult);
             status = Status.SUCCESSFUL;
         }
-        return Serialization.serializeData(new WrapperForObjects(result.toString(), DescriptionForObject.ANSWER, status));
+        String[] array = new String[1];
+        array[0] = result.toString();
+        return Serialization.serializeData(new WrapperForObjects(array, DescriptionForObject.ANSWER, status));
     }
 }

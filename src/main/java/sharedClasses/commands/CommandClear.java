@@ -26,14 +26,14 @@ public class CommandClear extends Command {
      * @param priorityQueue хранимая коллекция.
      */
     public byte[] doCommand(IOInterface ioForClient, StorageInterface<City> priorityQueue) {
-        String s = "Элементы пользователя успешно удалены";
+        String s = "OkRemoveAll";
         Status status = Status.ERROR;
         synchronized (priorityQueue.getCollection()) {
             try {
                 priorityQueue.clear(getUser());
                 status = Status.SUCCESSFUL;
             } catch (SQLException e) {
-                s = "Элементы пользователя не удалены, так как возникла проблема с подключением к БД";
+                s = "DBError";
             }
         }
         return Serialization.serializeData(new WrapperForObjects(s, DescriptionForObject.ANSWER, status));

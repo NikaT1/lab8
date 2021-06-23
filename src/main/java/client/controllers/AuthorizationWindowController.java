@@ -5,9 +5,8 @@ import client.Client;
 import client.clientUtils.InputAndOutput;
 import client.clientUtils.LocalizationTool;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
@@ -20,10 +19,14 @@ public class AuthorizationWindowController {
 
     @FXML
     private TextField userLogin;
-
     @FXML
     private PasswordField password;
-
+    @FXML
+    private Label authLabel;
+    @FXML
+    private Button regBut;
+    @FXML
+    private Button logBut;
 
     public void setClient(Client client) {
         this.client = client;
@@ -39,8 +42,7 @@ public class AuthorizationWindowController {
                 cityApplication.startMainWindow();
             }
         } catch (IOException | NoSuchAlgorithmException e) {
-            inputAndOutput.output("Произошла непредвиденная ошибка", "Ошибка", null, Alert.AlertType.ERROR);
-            e.printStackTrace();
+            inputAndOutput.output("FatalError", "Error", null, Alert.AlertType.ERROR);
         }
     }
 
@@ -50,11 +52,19 @@ public class AuthorizationWindowController {
                 cityApplication.startMainWindow();
             }
         } catch (IOException | NoSuchAlgorithmException e) {
-            inputAndOutput.output("Произошла непредвиденная ошибка", "Ошибка", null, Alert.AlertType.ERROR);
+            inputAndOutput.output("FatalError", "Error", null, Alert.AlertType.ERROR);
         }
     }
 
     public void setLocalizationTool(LocalizationTool localizationTool) {
         this.localizationTool = localizationTool;
+    }
+
+    public void changeLang() {
+        logBut.setText(localizationTool.getString("logBut"));
+        regBut.setText(localizationTool.getString("regBut"));
+        authLabel.setText(localizationTool.getString("authLabel"));
+        password.setPromptText(localizationTool.getString("passLabel"));
+        userLogin.setPromptText(localizationTool.getString("logLabel"));
     }
 }

@@ -44,6 +44,34 @@ public class MainWindowController {
     private AuthorizationWindowController authController;
 
     @FXML
+    private Button helpedButton;
+    @FXML
+    private Button changeUserButton;
+    @FXML
+    private Tab tableTab;
+    @FXML
+    private Button updateIdButton;
+    @FXML
+    private Button removeByIdButton;
+    @FXML
+    private Button infoButton;
+    @FXML
+    private Button groupCountingByMetersAboveSeaLevelButton;
+    @FXML
+    private Button executeScriptButton;
+    @FXML
+    private Button removeHeadButton;
+    @FXML
+    private Button clearButton;
+    @FXML
+    private Button averageOfMetersAboveSeaLevelButton;
+    @FXML
+    private Button addIfMaxButton;
+    @FXML
+    private Button addIfMinButton;
+    @FXML
+    private Button addButton;
+    @FXML
     AnchorPane mapPane;
     @FXML
     TableColumn<City, Integer> idColumn;
@@ -78,6 +106,7 @@ public class MainWindowController {
     @FXML
     ComboBox<String> langButton;
 
+    private String login = "";
     private Random random = new Random();
     private HashMap<String, Color> visualMap = new HashMap();
     private HashMap<Shape, Integer> moveMap = new HashMap();
@@ -117,8 +146,22 @@ public class MainWindowController {
     }
 
     private void changeLang() {
-        //idColumn.setText(localizationTool.getString("buttonAdd"));
-        //b.setText(localizationTool.getString("buttonBack"));
+        helpedButton.setText(localizationTool.getString("helpedButton"));
+        changeUserButton.setText(localizationTool.getString("changeUserButton"));
+        currentUserLabel.setText(localizationTool.getString("Hello") + login);
+        tableTab.setText(localizationTool.getString("tableTab"));
+        mapTab.setText(localizationTool.getString("mapTab"));
+        updateIdButton.setText(localizationTool.getString("updateIdButton"));
+        removeByIdButton.setText(localizationTool.getString("removeByIdButton"));
+        infoButton.setText(localizationTool.getString("infoButton"));
+        groupCountingByMetersAboveSeaLevelButton.setText(localizationTool.getString("groupCountingByMetersAboveSeaLevelButton"));
+        executeScriptButton.setText(localizationTool.getString("executeScriptButton"));
+        removeHeadButton.setText(localizationTool.getString("removeHeadButton"));
+        clearButton.setText(localizationTool.getString("clearButton"));
+        averageOfMetersAboveSeaLevelButton.setText(localizationTool.getString("averageOfMetersAboveSeaLevelButton"));
+        addIfMaxButton.setText(localizationTool.getString("addIfMaxButton"));
+        addIfMinButton.setText(localizationTool.getString("addIfMinButton"));
+        addButton.setText(localizationTool.getString("addButton"));
         idColumn.setText(localizationTool.getString("idLabel"));
         nameColumn.setText(localizationTool.getString("nameLabel"));
         xColumn.setText(localizationTool.getString("xLabel"));
@@ -130,6 +173,8 @@ public class MainWindowController {
         metersAboveSeaLevelColumn.setText(localizationTool.getString("metersAboveSeaLevelLabel"));
         agglomerationColumn.setText(localizationTool.getString("agglomerationLabel"));
         ageColumn.setText(localizationTool.getString("ageLabel"));
+        creationDateColumn.setText(localizationTool.getString("creationDateColumn"));
+        ownerColumn.setText(localizationTool.getString("ownerColumn"));
         mapPane.getChildren().clear();
         startVisualisation();
     }
@@ -297,7 +342,7 @@ public class MainWindowController {
     public void averageOfMetersAboveSeaLevelButtonClicked() {
         WrapperForObjects wrapObject = commandManager.getInfoAboutCollection("average_of_meters_above_sea_level");
         updateTable();
-        outputResult(wrapObject);
+        outputResultWithArgs(wrapObject, "AverageCommand");
     }
 
     public void addIfMaxButtonClicked() {
@@ -325,13 +370,17 @@ public class MainWindowController {
     public void groupCountingByMetersAboveSeaLevelButtonClicked() {
         WrapperForObjects wrapObject = commandManager.getInfoAboutCollection("group_counting_by_meters_above_sea_level");
         updateTable();
-        outputLongResult(wrapObject);
+        outputResultWithArgs(wrapObject, "GroupCommand");
     }
 
     public void infoButtonClicked() {
         WrapperForObjects wrapObject = commandManager.getInfoAboutCollection("info");
         updateTable();
-        outputResult(wrapObject);
+        outputResultWithArgs(wrapObject, "InfoCommand");
+    }
+
+    private void outputResultWithArgs(WrapperForObjects wrapObject, String s) {
+        inputAndOutput.outputWithArgs(s, "Result", null, (String[]) wrapObject.getObject(), Alert.AlertType.INFORMATION);
     }
 
     public void removeByIdButtonClicked() {
@@ -402,6 +451,7 @@ public class MainWindowController {
     }
 
     public void changeHello(String login) {
+        this.login = login;
         currentUserLabel.setText(localizationTool.getString("Hello") + login + "!");
         currentUserLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 20");
     }

@@ -33,17 +33,19 @@ public class GroupCountingByMetersAboveSeaLevel extends Command {
         StringBuilder result = new StringBuilder();
         Status status = Status.WARN;
         synchronized (priorityQueue.getCollection()) {
-            if (priorityQueue.getCollection().isEmpty()) result.append("Коллекция пуста" + '\n');
+            if (priorityQueue.getCollection().isEmpty()) result.append("Empty");
             else {
                 Map<Object, List<City>> groups = priorityQueue.getCollection().stream().
                         filter(city -> city.getMetersAboveSeaLevel() != null).
                         collect(Collectors.groupingBy(City::getMetersAboveSeaLevel));
-                groups.forEach((meters, cities) -> result.append("Группа ").append(meters).append(" (м):").append('\n').append(print(cities)).append('\n'));
+                groups.forEach((meters, cities) -> result.append("-> ").append(meters).append(" :").append('\n').append(print(cities)).append('\n'));
                 status = Status.SUCCESSFUL;
             }
             result.delete(result.length() - 2, result.length());
         }
-        return Serialization.serializeData(new WrapperForObjects(result.toString(), DescriptionForObject.ANSWER, status));
+        String[] array = new String[1];
+        array[0] = result.toString();
+        return Serialization.serializeData(new WrapperForObjects(array, DescriptionForObject.ANSWER, status));
     }
 
     public String print(List<City> cities) {

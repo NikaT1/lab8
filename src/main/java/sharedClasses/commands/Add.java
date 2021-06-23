@@ -4,7 +4,6 @@ package sharedClasses.commands;
 import sharedClasses.elementsOfCollection.City;
 import sharedClasses.utils.*;
 
-import javax.xml.transform.Result;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.NoSuchElementException;
@@ -38,15 +37,13 @@ public class Add extends Command {
             synchronized (priorityQueue.getCollection()) {
                 priorityQueue.addToCollection(city, getUser());
             }
-            result.append("В коллекцию добавлен новый элемент: ").append(city.toString());
+            result.append("OkAdd");
             status = Status.SUCCESSFUL;
-        } catch (IllegalStateException e) {
-            result.append("Ошибка: в коллекции слишком много элементов; объект коллекции не создан");
         } catch (NoSuchElementException e) {
-            result.append("В скрипте не указаны значения для создания элемента коллекции. Команда add не выполнена");
+            result.append("ScriptError");
         } catch (ClassNotFoundException | SQLException | ParseException e) {
-            result.append("Возникла ошибка при попытке соединения с БД, новый объект не добавлен");
+            result.append("DBError");
         }
-        return Serialization.serializeData(new WrapperForObjects(priorityQueue.getArrayList(), DescriptionForObject.ANSWER, status));
+        return Serialization.serializeData(new WrapperForObjects(result.toString(), DescriptionForObject.ANSWER, status));
     }
 }

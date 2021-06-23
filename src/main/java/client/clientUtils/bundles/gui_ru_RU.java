@@ -11,6 +11,11 @@ public class gui_ru_RU extends ListResourceBundle {
 
     private static final Object[][] contents = {
             {"ProgName", "City DB"},
+            {"logBut", "Войти"},
+            {"regBut", "Создать аккаунт"},
+            {"authLabel", "Вход в систему:"},
+            {"passLabel", "Пароль"},
+            {"logLabel", "Логин"},
             {"buttonAdd", "добавить"},
             {"buttonBack", "отменить"},
             {"instructionLabel", "Добавление элемента"},
@@ -19,14 +24,6 @@ public class gui_ru_RU extends ListResourceBundle {
             {"yLabel", "Y"},
             {"areaLabel", "Территория"},
             {"populationLabel", "Население"},
-            {"HelpMessage", "Reference:\n" +
-                    "At the bottom of the interface there are buttons for interacting with the base. To perform actions that change the contents of the database, you must first select a row of the table. You can also double-click on the required row of the table to change the object.\n" +
-                    "The \"Clear\" command removes from the database only those objects that belong to you.\n" +
-                    "You can go to the \"Visualization\" section to see a visual representation of the database objects. Double clicking on the object will enable you to edit it."},
-            {"InfoMessage", "Collection information:\n" +
-                    " Access date: {0}\n" +
-                    " Type: {1}\n" +
-                    " Size: {2}"},
             {"climateLabel", "Климат"},
             {"establishmentDateLabel", "Дата основания"},
             {"metersAboveSeaLevelLabel", "Высота над уровнем моря"},
@@ -36,7 +33,27 @@ public class gui_ru_RU extends ListResourceBundle {
             {"no", "нет"},
             {"yes", "да"},
             {"Arguments", "Аргументы"},
+            {"SerialError", "Ошибка сериализации команды; команда не выполнена"},
+            {"FatalError", "Возникла непредвиденная ошибка"},
+            {"ConnectError", "Соединение не установлено"},
+            {"TryToConnect", "Повторить попытку?"},
             {"DBError", "Ошибка при подключении к БД"},
+            {"ScriptError", "Ошибка при исполнении скрипта"},
+            {"IDError", "Неверный фомат id"},
+            {"WrongId", "Элемент с данным id не существует"},
+            {"OkUpdate", "Обновление элемента успешно завершено"},
+            {"NotUpdate", "Обновление элемента не осуществлено"},
+            {"OkAdd", "Добавление элемента успешно завершено"},
+            {"NotAdd", "Добавление элемента не осуществлено"},
+            {"Empty", "Коллекция пуста"},
+            {"OkRemove", "Удаление элемента успешно завершено"},
+            {"NotRemove", "Удаление элемента не осуществлено"},
+            {"OkRemoveAll", "Удаление элементов пользователя успешно завершено"},
+            {"AverageCommand", "Среднее значение высоты над уровнем моря для всех элементов коллекции: {0}"},
+            {"InfoCommand", "Тип: {0}\n" +
+                    "Дата инициализации: {1}\n" +
+                    "Количество элементов: {2}"},
+            {"GroupCommand", "Элементы, сгруппированные по высоте над уровнем моря: \n{0}"},
             {"Error", "Ошибка"},
             {"GetId", "Введите id:"},
             {"newInstructionLabel", "Изменение элемента"},
@@ -45,93 +62,43 @@ public class gui_ru_RU extends ListResourceBundle {
             {"AuthError", "Возникла ошибка при попытке запуска окна авторизации"},
             {"Result", "Результат команды:"},
             {"Warn", "Внимание:"},
-            {"UpdateSuccess", "Changing the object is successful!"},
-            {"UpdateError", "Error when changing the object."},
-            {"IdColumn", "Identifier"},
-            {"NameColumn", "Name"},
-            {"XColumn", "X."},
-            {"YColumn", "Y."},
-            {"SalaryColumn", "Salary"},
-            {"EndDateColumn", "Date of termination of the contract"},
-            {"CreationDateColumn", "Date of adding to the database"},
-            {"PositionColumn", "Position"},
-            {"StatusColumn", "Status"},
-            {"OrgColumn", "Organization"},
-            {"OrgTypeColumn", "Type of organization"},
-            {"AnnualTurnoverColumn", "Annual revenue"},
-            {"StreetColumn", "Street"},
-            {"PostalCodeColumn", "Index"},
-            {"UserColumn", "User"},
-            {"RefreshButton", "Refresh"},
-            {"AddButton", "Add"},
-            {"UpdateButton", "Change"},
-            {"RemoveButton", "Delete"},
-            {"RemoveGreaterButton", "Remove large"},
-            {"RemoveLowerButton", "Remove smaller"},
-            {"ClearButton", "Clear"},
-            {"HelpButton", "Help"},
-            {"InfoButton", "Information"},
-            {"CountByStatusButton", "Count by status"},
-            {"PrintUniqueOrgsButton", "Unique organizations"},
-            {"SaveButton", "Save to file"},
-            {"AddIfMinButton", "Add if less"},
-            {"ExecuteScriptButton", "Run script"},
-            {"VisualMapTab", "Visualization"},
-            {"DataTableTab", "Table"},
-            {"PortUnavailableError", "The server is currently unavailable."},
-            {"ConnectionError", "Connection to the server failed."},
-            {"AddressError", "The connection address is not found."},
-            {"FatalConnectionError", "Natasha, are you sleeping? For 6 o'clock in the morning, Natasha. Get up, we dropped everything there. We dropped everything at all, Natasha, honestly."},
-            {"LoginLabel", "Authorization"},
-            {"LoginFieldText", "Enter login"},
-            {"PwdFieldText", "Enter password"},
-            {"LoginButton", "Sign in"},
-            {"RegisterButton", "Register"},
-            {"TryLater", "Try to execute this action later."},
-            {"DoneButton", "Ready"},
-            {"NameLabel", "Name"},
-            {"XLabel", "X."},
-            {"YLabel", "Y."},
-            {"SalaryLabel", "Salary"},
-            {"EndDateLabel", "Date of termination of the contract"},
-            {"PositionLabel", "Position"},
-            {"StatusLabel", "Status"},
-            {"OrgLabel", "Organization"},
-            {"OrgTypeLabel", "Type of organization"},
-            {"AnnTurnoverLabel", "Annual revenue"},
-            {"StreetLabel", "Street"},
-            {"PostalCodeLabel", "Index"},
-            {"NamePrompt", "Enter your name"},
-            {"XPrompt", "X."},
-            {"YPrompt", "Y."},
-            {"SalaryPrompt", "Enter the salary"},
-            {"EndDatePrompt", "Specify the Date Termination of the Contract"},
-            {"PositionPrompt", "Choose a position"},
-            {"StatusPrompt", "Select Status"},
-            {"OrgPrompt", "Enter the name of the organization"},
-            {"OrgTypePrompt", "Select the type of organization"},
-            {"AnnTurnoverPrompt", "Enter the annual revenue"},
-            {"StreetPrompt", "Enter the street"},
-            {"PostalCodePrompt", "Enter the index"},
-            {"ObjectNotChosen", "First select an object!"},
-            {"HelpForCommands", "add : добавить новый элемент в коллекцию\n" +
+            {"WrongPop", "Численность населения введена неверно"},
+            {"WrongCoord", "Координата введена неверно"},
+            {"WrongAge", "Возраст введен неверно"},
+            {"WrongClimate", "Климат введен неверно"},
+            {"WrongAgl", "Размер агломерации введен неверно"},
+            {"WrongDate", "Дата введена неверно"},
+            {"WrongMet", "Высота над уровнем моря введена неверно"},
+            {"HelpForCommands", "добавить : добавить новый элемент в коллекцию\n" +
                     "удалить первый : удалить первый элемент коллекции\n" +
-                    "сгруппировать : сгруппировать элементы коллекции по значению поля metersAboveSeaLevel, вывести количество элементов в каждой группе\n" +
+                    "сгруппировать по высоте над уровнем моря : сгруппировать элементы коллекции по значению поля metersAboveSeaLevel, вывести количество элементов в каждой группе\n" +
                     "добавить если меньше : добавить новый элемент в коллекцию, если его значение меньше, чем у наименьшего элемента этой коллекции\n" +
-                    "исполнить скрипт : считать и исполнить скрипт из указанного файла. В скрипте содержатся команды в таком же виде, в котором их вводит пользователь в интерактивном режиме.\n" +
+                    "исполнить скрипт : считать и исполнить скрипт из указанного файла.\n" +
                     "очистить : очистить коллекцию\n" +
-                    "обновить : обновить значение элемента коллекции, id которого равен заданному\n" +
+                    "изменить : обновить значение элемента коллекции, id которого равен заданному\n" +
                     "удалить : удалить элемент из коллекции по его id\n" +
-                    "добавить если меньше : добавить новый элемент в коллекцию, если его значение превышает значение наибольшего элемента этой коллекции\n" +
+                    "добавить если больше : добавить новый элемент в коллекцию, если его значение превышает значение наибольшего элемента этой коллекции\n" +
                     "справка : вывести справку по доступным командам\n" +
                     "средняя высота над уровнем моря : вывести среднее значение поля metersAboveSeaLevel для всех элементов коллекции\n" +
                     "информация : вывести информацию о коллекции (тип, дата инициализации, количество элементов и т.д.)"},
-            {"WorkerDisplay", "Name: {0}\n" +
-                    "Salary: {1}\n" +
-                    "Contract end date: {2}\n" +
-                    "Position: {3}\n" +
-                    "Status: {4}\n" +
-                    "Organization: {5}\n" +
-                    "A type: {6}"}
+            {"helpedButton", "помощь"},
+            {"changeUserButton", "сменить пользователя"},
+            {"currentUserLabel", "С возвращением, "},
+            {"tableTab", "таблица"},
+            {"mapTab", "визуализация"},
+            {"updateIdButton", "изменить"},
+            {"removeByIdButton", "удалить"},
+            {"infoButton", "справка"},
+            {"groupCountingByMetersAboveSeaLevelButton", "сгруппировать по высоте над уровнем моря"},
+            {"executeScriptButton", "исполнить скрипт"},
+            {"removeHeadButton", "удалить первый"},
+            {"clearButton", "очистить"},
+            {"averageOfMetersAboveSeaLevelButton", "средняя высота над уровнем моря"},
+            {"addIfMaxButton", "добавить если больше"},
+            {"addIfMinButton", "добавить если меньше"},
+            {"addButton", "добавить"},
+            {"creationDateColumn", "Дата создания"},
+            {"ownerColumn", "Владелец"}
+
     };
 }

@@ -38,7 +38,7 @@
                     prefHeight="30.0" prefWidth="150.0" text="addIfMax"
                     style="-fx-background-color: #F3EDFC;"/>
             <Button fx:id="averageOfMetersAboveSeaLevelButton" mnemonicParsing="false"
-                    onAction="#averageOfMetersAboveSeaLevelButtonClicked" prefHeight="30.0" prefWidth="200.0"
+                    onAction="#averageOfMetersAboveSeaLevelButtonClicked" prefHeight="30.0" prefWidth="250.0"
                     text="averageOfMetersAboveSeaLevel"
                     style="-fx-background-color: #F3EDFC;"/>
             <Button fx:id="clearButton" mnemonicParsing="false" onAction="#clearButtonClicked" prefHeight="30.0"
@@ -51,7 +51,7 @@
                     style="-fx-background-color: #F3EDFC;"/>
             <Button fx:id="groupCountingByMetersAboveSeaLevelButton" mnemonicParsing="false"
                     onAction="#groupCountingByMetersAboveSeaLevelButtonClicked" prefHeight="30.0"
-                    prefWidth="250.0" text="groupCountingByMetersAboveSeaLevel"
+                    prefWidth="270.0" text="groupCountingByMetersAboveSeaLevel"
                     style="-fx-background-color: #F3EDFC;"/>
             <Button fx:id="infoButton" mnemonicParsing="false" onAction="#infoButtonClicked" prefHeight="30.0"
                     prefWidth="150.0" text="info" style="-fx-background-color: #F3EDFC;"/>

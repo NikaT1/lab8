@@ -27,28 +27,27 @@ public class RemoveHead extends Command {
      * @param priorityQueue хранимая коллекция.
      */
     public byte[] doCommand(IOInterface ioForClient, StorageInterface<City> priorityQueue) {
-        StringBuilder result = new StringBuilder();
+        String result;
         Status status = Status.WARN;
         synchronized (priorityQueue.getCollection()) {
             try {
-                if (priorityQueue.getCollection().isEmpty()) result.append("Коллекция пуста");
+                if (priorityQueue.getCollection().isEmpty()) result = "Empty";
                 else {
                     City city = priorityQueue.pollFromQueue();
                     boolean flag = priorityQueue.remove(city, getUser());
                     if (flag) {
-                        result.append("удаление элемента успешно завершено");
+                        result = "OkRemove";
                         status = Status.SUCCESSFUL;
-                    }
-                    else {
-                        result.append("удаление элемента не выполнено!");
+                    } else {
+                        result = "NotRemove";
                         priorityQueue.getCollection().add(city);
                     }
                 }
             } catch (SQLException e) {
-                result.append("ошибка при попытке удаления значения из БД; удаление не выполнено");
+                result = "IDError";
                 status = Status.ERROR;
             }
         }
-        return Serialization.serializeData(new WrapperForObjects(result.toString(), DescriptionForObject.ANSWER, status));
+        return Serialization.serializeData(new WrapperForObjects(result, DescriptionForObject.ANSWER, status));
     }
 }

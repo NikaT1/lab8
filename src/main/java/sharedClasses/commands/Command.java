@@ -74,10 +74,6 @@ public abstract class Command implements Serializable {
         return user;
     }
 
-    public int getAmountOfArguments() {
-        return amountOfArguments;
-    }
-
     public String getArgument() {
         return argument;
     }
