@@ -17,6 +17,7 @@ public class InputAndOutput implements IOInterface {
      * Ввод пользователя.
      */
     private boolean printMessages;
+    private LocalizationTool localizationTool;
 
     /**
      * Конструктор.
@@ -42,8 +43,8 @@ public class InputAndOutput implements IOInterface {
         alert.setTitle(title);
         alert.setHeaderText(header);
         alert.setContentText(text);
-        ButtonType yes = new ButtonType("да");
-        ButtonType no = new ButtonType("нет");
+        ButtonType yes = new ButtonType(localizationTool.getString("yes"));
+        ButtonType no = new ButtonType(localizationTool.getString("no"));
         alert.getButtonTypes().clear();
         alert.getButtonTypes().addAll(yes, no);
         Optional<ButtonType> answer = alert.showAndWait();
@@ -57,19 +58,19 @@ public class InputAndOutput implements IOInterface {
     public void output(String text, String title, String header, Alert.AlertType type) {
         Alert alert = new Alert(type);
         if (type== Alert.AlertType.ERROR) alert.initModality(Modality.APPLICATION_MODAL);
-        alert.setTitle(title);
-        alert.setHeaderText(header);
-        alert.setContentText(text);
+        alert.setTitle(localizationTool.getString(title));
+        alert.setHeaderText(localizationTool.getString(header));
+        alert.setContentText(localizationTool.getString(text));
         alert.showAndWait();
     }
 
     public void longOutput(String text, String title, String header, Alert.AlertType type) {
         Alert alert = new Alert(type);
         if (type== Alert.AlertType.ERROR) alert.initModality(Modality.APPLICATION_MODAL);
-        alert.setTitle(title);
-        alert.setHeaderText(header);
-        alert.setContentText(text);
-        TextArea area = new TextArea(text);
+        alert.setTitle(localizationTool.getString(title));
+        alert.setHeaderText(localizationTool.getString(header));
+        alert.setContentText(localizationTool.getString(text));
+        TextArea area = new TextArea(localizationTool.getString(text));
         area.setWrapText(true);
         area.setEditable(false);
         alert.getDialogPane().setContent(area);
@@ -79,5 +80,9 @@ public class InputAndOutput implements IOInterface {
 
     public boolean getPrintMessages() {
         return printMessages;
+    }
+
+    public void setLocalizationTool(LocalizationTool localizationTool) {
+        this.localizationTool = localizationTool;
     }
 }

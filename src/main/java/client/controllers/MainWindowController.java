@@ -4,25 +4,22 @@ import client.CityApplication;
 import client.Client;
 import client.clientUtils.CommandManager;
 import client.clientUtils.InputAndOutput;
+import client.clientUtils.LocalizationTool;
 import javafx.animation.PathTransition;
-import javafx.animation.PauseTransition;
 import javafx.animation.ScaleTransition;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextBoundsType;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
 import sharedClasses.elementsOfCollection.City;
@@ -30,7 +27,6 @@ import sharedClasses.elementsOfCollection.Climate;
 import sharedClasses.utils.Status;
 import sharedClasses.utils.WrapperForObjects;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
@@ -45,6 +41,7 @@ public class MainWindowController {
     private Circle prevCircle;
     private Color prevColor;
     private FileChooser fileChooser;
+    private AuthorizationWindowController authController;
 
     @FXML
     AnchorPane mapPane;
@@ -78,6 +75,8 @@ public class MainWindowController {
     TableView<City> tableView;
     @FXML
     Tab mapTab;
+    @FXML
+    ComboBox<String> langButton;
 
     private Random random = new Random();
     private HashMap<String, Color> visualMap = new HashMap();
@@ -85,6 +84,8 @@ public class MainWindowController {
     private HashMap<Integer, Text> idMap = new HashMap();
     private HashMap<Integer, Label> infoMap = new HashMap();
     private boolean isFirst = true;
+    private HashMap<String, Locale> languages = new HashMap();
+    private LocalizationTool localizationTool;
 
     public void setClient(Client client) {
         this.client = client;
@@ -92,6 +93,45 @@ public class MainWindowController {
 
     public void setCityApplication(CityApplication cityApplication) {
         this.cityApplication = cityApplication;
+    }
+
+    public void setLocalizationTool(LocalizationTool localizationTool) {
+        this.localizationTool = localizationTool;
+    }
+
+    public void init() {
+        fillTable();
+        languages.put("English (CA)", new Locale("en", "CA"));
+        languages.put("Shqiptare", new Locale("sq", "AL"));
+        languages.put("Slovák", new Locale("sk", "SK"));
+        languages.put("Русский", new Locale("ru", "RU"));
+        langButton.setItems(FXCollections.observableArrayList(languages.keySet()));
+        langButton.getSelectionModel().selectedItemProperty().addListener((someOptions, oldLang, newLang) -> {
+                    localizationTool.setResource(ResourceBundle.getBundle("client.clientUtils.bundles.gui", languages.get(newLang)));
+                    if (popUpWindowController != null) popUpWindowController.changeLang();
+                    changeLang();
+                    inputAndOutput.setLocalizationTool(localizationTool);
+                }
+        );
+        langButton.getSelectionModel().selectLast();
+    }
+
+    private void changeLang() {
+        //idColumn.setText(localizationTool.getString("buttonAdd"));
+        //b.setText(localizationTool.getString("buttonBack"));
+        idColumn.setText(localizationTool.getString("idLabel"));
+        nameColumn.setText(localizationTool.getString("nameLabel"));
+        xColumn.setText(localizationTool.getString("xLabel"));
+        yColumn.setText(localizationTool.getString("yLabel"));
+        areaColumn.setText(localizationTool.getString("areaLabel"));
+        populationColumn.setText(localizationTool.getString("populationLabel"));
+        establishmentDateColumn.setText(localizationTool.getString("establishmentDateLabel"));
+        climateColumn.setText(localizationTool.getString("climateLabel"));
+        metersAboveSeaLevelColumn.setText(localizationTool.getString("metersAboveSeaLevelLabel"));
+        agglomerationColumn.setText(localizationTool.getString("agglomerationLabel"));
+        ageColumn.setText(localizationTool.getString("ageLabel"));
+        mapPane.getChildren().clear();
+        startVisualisation();
     }
 
     public void fillTable() {
@@ -109,10 +149,9 @@ public class MainWindowController {
         ageColumn.setCellValueFactory(data -> new ReadOnlyObjectWrapper<>(data.getValue().getGovernor().getAge()));
         ownerColumn.setCellValueFactory(data -> new ReadOnlyObjectWrapper<>(data.getValue().getOwner()));
         idColumn.setSortType(TableColumn.SortType.ASCENDING);
-        populationColumn.setSortable(false);
         ObservableList<City> list = commandManager.getCollectionForTable();
         if (list != null) tableView.setItems(list);
-        else inputAndOutput.output("Ошибка при подключении к БД", "Ошибка", null, Alert.AlertType.ERROR);
+        else inputAndOutput.output("DBError", "Error", null, Alert.AlertType.ERROR);
         tableView.getSelectionModel().clearSelection();
         mapTab.setOnSelectionChanged(e -> {
             mapPane.getChildren().clear();
@@ -179,6 +218,8 @@ public class MainWindowController {
             } else {
                 objectId.translateXProperty().bind(circleObject.centerXProperty().subtract(objectId.getLayoutBounds().getWidth() / 2));
                 objectId.translateYProperty().bind(circleObject.centerYProperty().add(objectId.getLayoutBounds().getHeight() / 4));
+                info.translateXProperty().bind(circleObject.centerXProperty().add(100));
+                info.translateYProperty().bind(circleObject.centerYProperty().subtract(100));
                 ScaleTransition scaleTransition = new ScaleTransition();
                 scaleTransition.setDuration(Duration.millis(1500));
                 circleObject.setCenterX(city.getCoordinates().getX());
@@ -205,7 +246,7 @@ public class MainWindowController {
                     startVisualisation();
                 });
                 try {
-                    Thread.sleep(10000);
+                    Thread.sleep(15000);
                 } catch (InterruptedException e) {
                 }
             }
@@ -235,12 +276,12 @@ public class MainWindowController {
     }
 
     public void addButtonClicked() {
-        popUpWindowController.makeAddWindow("Добавление объекта:");
+        popUpWindowController.makeAddWindow(localizationTool.getString("instructionLabel"));
     }
 
     public void changeCollection(ObservableList<City> list) {
         if (list != null) tableView.setItems(list);
-        else inputAndOutput.output("Ошибка при подключении к БД", "Ошибка", null, Alert.AlertType.ERROR);
+        else inputAndOutput.output("DBError", "Error", null, Alert.AlertType.ERROR);
         tableView.getSelectionModel().clearSelection();
         mapPane.getChildren().clear();
     }
@@ -250,7 +291,7 @@ public class MainWindowController {
     }
 
     public void addIfMinButtonClicked() {
-        popUpWindowController.makeAddIfMinWindow("Добавление объекта:");
+        popUpWindowController.makeAddIfMinWindow(localizationTool.getString("instructionLabel"));
     }
 
     public void averageOfMetersAboveSeaLevelButtonClicked() {
@@ -260,7 +301,7 @@ public class MainWindowController {
     }
 
     public void addIfMaxButtonClicked() {
-        popUpWindowController.makeAddIfMaxWindow("Добавление объекта:");
+        popUpWindowController.makeAddIfMaxWindow(localizationTool.getString("instructionLabel"));
     }
 
     public void removeHeadButtonClicked() {
@@ -299,7 +340,7 @@ public class MainWindowController {
             City city = tableView.getSelectionModel().getSelectedItem();
             arg = String.valueOf(city.getId());
         } else {
-            Optional<String> optArg = commandManager.askArg("Введите id:");
+            Optional<String> optArg = commandManager.askArg("GetId");
             if (optArg.isPresent()) arg = optArg.get();
             else arg = null;
         }
@@ -316,48 +357,44 @@ public class MainWindowController {
             City city = tableView.getSelectionModel().getSelectedItem();
             arg = String.valueOf(city.getId());
         } else {
-            Optional<String> optArg = commandManager.askArg("Введите id:");
+            Optional<String> optArg = commandManager.askArg("GetId");
             if (optArg.isPresent()) arg = optArg.get();
             else arg = null;
         }
         if (arg != null) {
-            popUpWindowController.makeUpdateWindow("Добавление объекта:", arg);
+            popUpWindowController.makeUpdateWindow(localizationTool.getString("newInstructionLabel"), arg);
         }
     }
 
     public void outputLongResult(WrapperForObjects wrapObject) {
         if (wrapObject.getStatus() == Status.ERROR)
-            inputAndOutput.longOutput((String) wrapObject.getObject(), "Ошибка:", null, Alert.AlertType.ERROR);
+            inputAndOutput.longOutput((String) wrapObject.getObject(), "Error", null, Alert.AlertType.ERROR);
         else if (wrapObject.getStatus() == Status.WARN)
-            inputAndOutput.longOutput((String) wrapObject.getObject(), "Внимание:", null, Alert.AlertType.INFORMATION);
+            inputAndOutput.longOutput((String) wrapObject.getObject(), "Warn", null, Alert.AlertType.INFORMATION);
         else
-            inputAndOutput.longOutput((String) wrapObject.getObject(), "Результат команды:", null, Alert.AlertType.INFORMATION);
+            inputAndOutput.longOutput((String) wrapObject.getObject(), "Result", null, Alert.AlertType.INFORMATION);
     }
 
     public void outputResult(WrapperForObjects wrapObject) {
         if (wrapObject.getStatus() == Status.ERROR)
-            inputAndOutput.output((String) wrapObject.getObject(), "Ошибка:", null, Alert.AlertType.ERROR);
+            inputAndOutput.output((String) wrapObject.getObject(), "Error", null, Alert.AlertType.ERROR);
         else if (wrapObject.getStatus() == Status.WARN)
-            inputAndOutput.output((String) wrapObject.getObject(), "Внимание:", null, Alert.AlertType.INFORMATION);
+            inputAndOutput.output((String) wrapObject.getObject(), "Warn", null, Alert.AlertType.INFORMATION);
         else
-            inputAndOutput.output((String) wrapObject.getObject(), "Результат команды:", null, Alert.AlertType.INFORMATION);
+            inputAndOutput.output((String) wrapObject.getObject(), "Result", null, Alert.AlertType.INFORMATION);
     }
 
     public void helpedButtonClicked() {
         WrapperForObjects wrapObject = commandManager.getInfoAboutCollection("help");
-        inputAndOutput.longOutput((String) wrapObject.getObject(), "Доступные команды:", null, Alert.AlertType.INFORMATION);
+        inputAndOutput.longOutput((String) wrapObject.getObject(), "Commands", null, Alert.AlertType.INFORMATION);
     }
 
     public void changeButtonClicked() {
         try {
             cityApplication.returnAuthWindow();
         } catch (IOException e) {
-            inputAndOutput.output("Возникла ошибка при попытке запуска окна авторизации", "Ошибка:", null, Alert.AlertType.ERROR);
+            inputAndOutput.output("AuthError", "Error", null, Alert.AlertType.ERROR);
         }
-    }
-
-    public void langButtonClicked() {
-        //commandManager.getInfoAboutCollection("removeHead");
     }
 
     public void setCommandManager(CommandManager commandManager) {
@@ -365,7 +402,11 @@ public class MainWindowController {
     }
 
     public void changeHello(String login) {
-        currentUserLabel.setText("С возвращением, " + login + "!");
+        currentUserLabel.setText(localizationTool.getString("Hello") + login + "!");
         currentUserLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 20");
+    }
+
+    public void setAuthorizationWindow(AuthorizationWindowController authController) {
+        this.authController = authController;
     }
 }

@@ -3,6 +3,7 @@ package client.controllers;
 import client.CityApplication;
 import client.Client;
 import client.clientUtils.InputAndOutput;
+import client.clientUtils.LocalizationTool;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
@@ -15,6 +16,7 @@ public class AuthorizationWindowController {
     private Client client;
     private CityApplication cityApplication;
     private final InputAndOutput inputAndOutput = new InputAndOutput();
+    private LocalizationTool localizationTool;
 
     @FXML
     private TextField userLogin;
@@ -50,5 +52,9 @@ public class AuthorizationWindowController {
         } catch (IOException | NoSuchAlgorithmException e) {
             inputAndOutput.output("Произошла непредвиденная ошибка", "Ошибка", null, Alert.AlertType.ERROR);
         }
+    }
+
+    public void setLocalizationTool(LocalizationTool localizationTool) {
+        this.localizationTool = localizationTool;
     }
 }

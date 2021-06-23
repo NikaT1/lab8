@@ -53,7 +53,6 @@ public class UpdateId extends Command {
                 status = Status.ERROR;
             }
         }
-        //System.out.println(result);
         return Serialization.serializeData(new WrapperForObjects(priorityQueue.getArrayList(), DescriptionForObject.ANSWER, status));
     }
 }

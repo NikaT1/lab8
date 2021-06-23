@@ -27,12 +27,7 @@ public class Help extends Command {
      * @param priorityQueue хранимая коллекция.
      */
     public byte[] doCommand(IOInterface ioForClient, StorageInterface<City> priorityQueue) {
-        StringBuilder result = new StringBuilder();
         Status status = Status.SUCCESSFUL;
-        for (Command command : getCommandsControl().getCommands().values()) {
-            result.append(command.toString()).append('\n');
-        }
-        result.delete(result.length() - 1, result.length());
-        return Serialization.serializeData(new WrapperForObjects(result.toString(), DescriptionForObject.ANSWER, status));
+        return Serialization.serializeData(new WrapperForObjects("HelpForCommands", DescriptionForObject.ANSWER, status));
     }
 }

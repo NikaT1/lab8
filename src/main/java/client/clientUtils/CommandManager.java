@@ -16,10 +16,12 @@ import java.util.Optional;
 public class CommandManager {
     private final Client client;
     private final CommandsControl commandsControl;
+    private final LocalizationTool localizationTool;
 
-    public CommandManager(Client client) {
+    public CommandManager(Client client, LocalizationTool localizationTool) {
         this.client = client;
         commandsControl = client.getCommandControl();
+        this.localizationTool = localizationTool;
     }
 
     public ObservableList<City> getCollectionForTable() {
@@ -50,9 +52,9 @@ public class CommandManager {
 
     public Optional<String> askArg(String s) {
         TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle("Аргументы");
+        dialog.setTitle(localizationTool.getString("Arguments"));
         dialog.setHeaderText(null);
-        dialog.setContentText(s);
+        dialog.setContentText(localizationTool.getString(s));
         dialog.setResizable(false);
         Optional<String> result = dialog.showAndWait();
         return result;

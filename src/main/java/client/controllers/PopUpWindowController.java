@@ -4,6 +4,7 @@ import client.CityApplication;
 import client.Client;
 import client.clientUtils.CommandManager;
 import client.clientUtils.InputAndOutput;
+import client.clientUtils.LocalizationTool;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -12,8 +13,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import sharedClasses.elementsOfCollection.City;
 import sharedClasses.elementsOfCollection.Climate;
@@ -59,6 +58,26 @@ public class PopUpWindowController {
     @FXML
     private TextField age;
     @FXML
+    private Label nameLabel;
+    @FXML
+    private Label xLabel;
+    @FXML
+    private Label yLabel;
+    @FXML
+    private Label areaLabel;
+    @FXML
+    private Label populationLabel;
+    @FXML
+    private Label establishmentDateLabel;
+    @FXML
+    private Label metersAboveSeaLevelLabel;
+    @FXML
+    private Label agglomerationLabel;
+    @FXML
+    private Label ageLabel;
+    @FXML
+    private Label climateLabel;
+    @FXML
     private GridPane gridPane;
     private boolean flag;
     private CommandManager commandManager;
@@ -66,6 +85,7 @@ public class PopUpWindowController {
     private CityApplication cityApplication;
     private final InputAndOutput inputAndOutput = new InputAndOutput();
     private MainWindowController parentController;
+    private LocalizationTool localizationTool;
 
     public void setClient(Client client) {
         this.client = client;
@@ -327,5 +347,25 @@ public class PopUpWindowController {
 
     public void setParentController(MainWindowController controller) {
         parentController = controller;
+    }
+
+    public void changeLang() {
+        buttonAdd.setText(localizationTool.getString("buttonAdd"));
+        buttonBack.setText(localizationTool.getString("buttonBack"));
+        instructionLabel.setText(localizationTool.getString("instructionLabel"));
+        nameLabel.setText(localizationTool.getString("nameLabel"));
+        xLabel.setText(localizationTool.getString("xLabel"));
+        yLabel.setText(localizationTool.getString("yLabel"));
+        areaLabel.setText(localizationTool.getString("areaLabel"));
+        populationLabel.setText(localizationTool.getString("populationLabel"));
+        establishmentDateLabel.setText(localizationTool.getString("establishmentDateLabel"));
+        climateLabel.setText(localizationTool.getString("climateLabel"));
+        metersAboveSeaLevelLabel.setText(localizationTool.getString("metersAboveSeaLevelLabel"));
+        agglomerationLabel.setText(localizationTool.getString("agglomerationLabel"));
+        ageLabel.setText(localizationTool.getString("ageLabel"));
+    }
+
+    public void setLocalizationTool(LocalizationTool localizationTool) {
+        this.localizationTool = localizationTool;
     }
 }
