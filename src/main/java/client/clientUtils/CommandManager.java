@@ -20,7 +20,7 @@ public class CommandManager {
 
     public CommandManager(Client client, LocalizationTool localizationTool) {
         this.client = client;
-        commandsControl = client.getCommandControl();
+        commandsControl = client.getCommandsControl();
         this.localizationTool = localizationTool;
     }
 
@@ -30,6 +30,7 @@ public class CommandManager {
         try {
             coll = (ArrayList<City>) client.execute(commandsControl.getCommands().get("show")).getObject();
         } catch (IOException e) {
+            new InputAndOutput().output("FatalError", "Error", null, Alert.AlertType.ERROR);
             System.exit(-1);
         }
         list = FXCollections.observableArrayList(coll);
@@ -43,6 +44,7 @@ public class CommandManager {
         try {
             wrapObject = client.execute(command);
         } catch (IOException e) {
+            new InputAndOutput().output("FatalError", "Error", null, Alert.AlertType.ERROR);
             System.exit(-1);
         }
         return wrapObject;
@@ -64,6 +66,7 @@ public class CommandManager {
         try {
             wrapObject = client.execute(command);
         } catch (IOException e) {
+            new InputAndOutput().output("FatalError", "Error", null, Alert.AlertType.ERROR);
             System.exit(-1);
         }
         return wrapObject;
@@ -77,6 +80,7 @@ public class CommandManager {
         try {
             wrapObject = client.execute(command);
         } catch (IOException e) {
+            new InputAndOutput().output("FatalError", "Error", null, Alert.AlertType.ERROR);
             System.exit(-1);
         }
         return wrapObject;
@@ -88,6 +92,7 @@ public class CommandManager {
         try {
             wrapObject = client.execute(command);
         } catch (IOException e) {
+            new InputAndOutput().output("FatalError", "Error", null, Alert.AlertType.ERROR);
             System.exit(-1);
         }
         return wrapObject;

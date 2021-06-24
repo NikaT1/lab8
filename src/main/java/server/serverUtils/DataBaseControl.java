@@ -12,11 +12,8 @@ import sharedClasses.utils.User;
 import sharedClasses.utils.WrapperForObjects;
 
 import java.sql.*;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.ZoneId;
+import java.time.LocalDate;
 
 public class DataBaseControl {
     private final String URL;
@@ -54,7 +51,7 @@ public class DataBaseControl {
         statement.setLong(6, city.getPopulation());
         if (city.getMetersAboveSeaLevel() != null) statement.setLong(7, city.getMetersAboveSeaLevel());
         else statement.setNull(7, Types.BIGINT);
-        if (city.getEstablishmentDate() != null) statement.setString(8, city.getEstablishmentDate());
+        if (city.getEstablishmentDate() != null) statement.setString(8, city.getEstablishmentDate().toString());
         else statement.setNull(8, Types.VARCHAR);
         if (city.getAgglomeration() != null) statement.setInt(9, city.getAgglomeration());
         else statement.setNull(9, Types.INTEGER);
@@ -113,15 +110,14 @@ public class DataBaseControl {
             city.setId(resultSet.getInt("id"));
             city.setName(resultSet.getString("name"));
             city.setCoordinates(new Coordinates(resultSet.getFloat("x"), resultSet.getInt("y")));
-            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-            city.setCreationDate(Instant.ofEpochMilli(formatter.parse(resultSet.getString("creationDate")).getTime()).atZone(ZoneId.systemDefault()).toLocalDate());
+            city.setCreationDate(LocalDate.parse(resultSet.getString("creationDate")));
             city.setArea(resultSet.getInt("area"));
             city.setPopulation(resultSet.getLong("population"));
             if (resultSet.getString("metersAboveSeaLevel") != null)
                 city.setMetersAboveSeaLevel(resultSet.getLong("metersAboveSeaLevel"));
             else city.setMetersAboveSeaLevel(null);
             if (resultSet.getString("establishmentDate") != null) {
-                city.setEstablishmentDate(formatter.parse(resultSet.getString("establishmentDate")));
+                city.setEstablishmentDate(LocalDate.parse(resultSet.getString("establishmentDate")));
             } else city.setEstablishmentDate(null);
             if (resultSet.getString("agglomeration") != null)
                 city.setAgglomeration(resultSet.getInt("agglomeration"));
@@ -193,7 +189,7 @@ public class DataBaseControl {
         boolean flag = false;
         PreparedStatement statement = connection.prepareStatement("UPDATE city SET name = ?, x = ?," +
                 "y = ?, creationDate = ?, area = ?, population = ?, metersAboveSeaLevel = ?," +
-                "establishmentDate = ?, agglomeration = ?, climate = ?, age = ? owner = ? WHERE id = ? AND owner = ?");
+                "establishmentDate = ?, agglomeration = ?, climate = ?, age = ?, owner = ? WHERE id = ? AND owner = ?");
         statement.setString(1, city.getName());
         statement.setFloat(2, city.getCoordinates().getX());
         statement.setInt(3, city.getCoordinates().getY());
@@ -202,7 +198,7 @@ public class DataBaseControl {
         statement.setLong(6, city.getPopulation());
         if (city.getMetersAboveSeaLevel() != null) statement.setLong(7, city.getMetersAboveSeaLevel());
         else statement.setNull(7, Types.BIGINT);
-        if (city.getEstablishmentDate() != null) statement.setString(8, city.getEstablishmentDate());
+        if (city.getEstablishmentDate() != null) statement.setString(8, city.getEstablishmentDate().toString());
         else statement.setNull(8, Types.VARCHAR);
         if (city.getAgglomeration() != null) statement.setInt(9, city.getAgglomeration());
         else statement.setNull(9, Types.INTEGER);

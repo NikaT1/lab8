@@ -98,6 +98,11 @@ public class gui_sk_SK extends ListResourceBundle {
             {"addIfMinButton", "pridať, ak je menej"},
             {"addButton", "pridať"},
             {"creationDateColumn", "Dátum vytvorenia"},
-            {"ownerColumn", "Majiteľ"}
+            {"ownerColumn", "Majiteľ"},
+            {"ScriptOk", "Skript sa vykonáva"},
+            {"StringObject", "Názov: {0}, X: {1}, y: {2}, dátum stvorenia: {3}," +
+                    " oblasť územia: {4}, populácia: {5}, počet metrov nad morom:" +
+                    " {6}, dátum nadácie: {7}, aglomeračná plocha: {8}, klíma: {9}," +
+                    " guvernér vek: {10}, creator: {11}. "}
     };
 }

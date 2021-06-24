@@ -1,10 +1,7 @@
 package sharedClasses.elementsOfCollection;
 
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
 
 /**
  * Класс City.
@@ -42,7 +39,7 @@ public class City implements Serializable, Comparable {
     /**
      * Дата основания города.
      */
-    private Date establishmentDate;
+    private LocalDate establishmentDate;
     /**
      * Размер агломерации.
      */
@@ -126,7 +123,7 @@ public class City implements Serializable, Comparable {
      *
      * @param establishmentDate дата основания.
      */
-    public void setEstablishmentDate(Date establishmentDate) {
+    public void setEstablishmentDate(LocalDate establishmentDate) {
         this.establishmentDate = establishmentDate;
     }
 
@@ -233,14 +230,8 @@ public class City implements Serializable, Comparable {
      *
      * @return дата основания.
      */
-    public String getEstablishmentDate() {
-        if (establishmentDate != null) {
-            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-            return formatter.format(establishmentDate.getTime());
-        } else return null;
-    }
 
-    public Date getNotStringEstablishmentDate() {
+    public LocalDate getEstablishmentDate() {
         return establishmentDate;
     }
 
@@ -292,5 +283,12 @@ public class City implements Serializable, Comparable {
     public int compareTo(Object o) {
         City city = (City) o;
         return city.getArea() - getArea();
+    }
+
+    public String[] makeArray() {
+        return new String[]{getName(), String.valueOf(coordinates.getX()), String.valueOf(coordinates.getY()), String.valueOf(getCreationDate()),
+                String.valueOf(getArea()), String.valueOf(getPopulation()), String.valueOf(getMetersAboveSeaLevel()),
+                String.valueOf(getEstablishmentDate()), String.valueOf(getAgglomeration()), String.valueOf(getClimate()),
+                String.valueOf(getGovernor().getAge()), getOwner()};
     }
 }

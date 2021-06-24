@@ -106,4 +106,8 @@ public abstract class Command implements Serializable {
     public String toString() {
         return getName() + " : " + getSomeInformation();
     }
+
+    public int getAmountOfArguments() {
+        return amountOfArguments;
+    }
 }

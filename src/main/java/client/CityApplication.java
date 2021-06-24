@@ -26,23 +26,23 @@ public class CityApplication extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        try {
-            client.setCityApplication(this);
-            if (isFirst) localizationTool = new LocalizationTool(ResourceBundle.getBundle("client.clientUtils.bundles.gui", new Locale("ru", "RU")));
-            this.stage = stage;
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/authorizationWindow.fxml"));
-            Parent root = loader.load();
-            authcontroller = loader.getController();
-            authcontroller.setClient(client);
-            authcontroller.setLocalizationTool(localizationTool);
-            authcontroller.setCityApplication(this);
-            authcontroller.changeLang();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
+        client.setCityApplication(this);
+        if (isFirst) {
+            localizationTool = new LocalizationTool(ResourceBundle.getBundle("client.clientUtils.bundles.gui", new Locale("ru", "RU")));
+            localizationTool.setNumberOfLang(3);
         }
+        this.stage = stage;
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/authorizationWindow.fxml"));
+        Parent root = loader.load();
+        authcontroller = loader.getController();
+        authcontroller.setClient(client);
+        authcontroller.setLocalizationTool(localizationTool);
+        authcontroller.setCityApplication(this);
+        authcontroller.changeLang();
+        stage.setScene(new Scene(root));
+        stage.setResizable(false);
+        stage.show();
     }
 
     public void returnAuthWindow() throws IOException {
@@ -81,7 +81,9 @@ public class CityApplication extends Application {
         stage.setTitle(localizationTool.getString("ProgName"));
         stage.setScene(new Scene(root));
         controller.changeHello(client.getUser().getLogin());
-        stage.setResizable(false);
+        stage.setResizable(true);
+        stage.setMinHeight(700);
+        stage.setMinWidth(1300);
         stage.show();
         controller.startUpdate();
     }

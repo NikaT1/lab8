@@ -71,14 +71,14 @@ public class gui_en_CA extends ListResourceBundle {
             {"WrongMet", "Meters above sea level introduced incorrectly"},
             {"HelpForCommands", "Add : add a new item to the collection \n" +
                     "remove head : remove the first element of the collection \n" +
-                    "Group counting by meters above sea level : grind the elements of the collection of the METERSABOVESELELEVEL field, output the number of elements in each group \n" +
+                    "Group counting by meters above sea level : grind the elements of the collection of the MetersAboveSeaLevel field, output the number of elements in each group \n" +
                     "Add if min : add a new item to the collection if its value is less than that of the smallest item of this collection \n" +
                     "Execute script : execute the script from the file. \n" +
                     "Clear : clear Collection \n" +
                     "Update : update the value of the element with specified ID\n" +
                     "remove : delete an item from the collection by its ID \n" +
                     "Add if max : add a new item to the collection, if its value exceeds the value of the largest element of this collection \n" +
-                    "Average of meters above sea level : output the average value of the METERSABOVESELEVEL field for all elements of the collection \n" +
+                    "Average of meters above sea level : output the average value of the MetersAboveSeaLevel field for all elements of the collection \n" +
                     "Info : displays information about the collection (type,initialization date,number of elements,etc.)"},
             {"helpedButton", "help"},
             {"changeUserButton", "change user"},
@@ -97,6 +97,10 @@ public class gui_en_CA extends ListResourceBundle {
             {"addIfMinButton", "add if min	"},
             {"addButton", "add"},
             {"creationDateColumn", "Creation date"},
-            {"ownerColumn", "Owner"}
+            {"ownerColumn", "Owner"},
+            {"ScriptOk", "Script is executed"},
+            {"StringObject", "Name: {0}, x: {1}, y: {2}, creation date: {3}," +
+                    "area: {4}, population: {5}, meters above sea level: {6}," +
+                    " establishment date: {7}, agglomeration: {8}, climate: {9}, governor age: {10}, owner: {11}. "}
     };
 }

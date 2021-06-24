@@ -23,7 +23,6 @@ public class CommandsControl implements Serializable {
         commands.put("update", new UpdateId(user, this));
         commands.put("remove_by_id", new RemoveById(user, this));
         commands.put("clear", new CommandClear(user, this));
-        commands.put("execute_script", new ExecuteScript(user, this));
         commands.put("remove_head", new RemoveHead(user, this));
         commands.put("add_if_max", new AddIfMax(user, this));
         commands.put("add_if_min", new AddIfMin(user, this));

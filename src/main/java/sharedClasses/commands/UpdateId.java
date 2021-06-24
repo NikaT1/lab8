@@ -39,6 +39,7 @@ public class UpdateId extends Command {
                         collect(Collectors.toList());
                 if (cities.size() > 0) {
                     City city = getCity();
+                    city.setOwner(getUser().getLogin());
                     if (priorityQueue.update(cities.get(0), city, id, getUser())) {
                         result = "OkUpdate";
                         status = Status.SUCCESSFUL;
@@ -49,6 +50,7 @@ public class UpdateId extends Command {
                 status = Status.ERROR;
             } catch (SQLException e) {
                 result = "DBError";
+                e.printStackTrace();
                 status = Status.ERROR;
             }
         }

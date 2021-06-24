@@ -7,7 +7,9 @@ import javafx.stage.Modality;
 import sharedClasses.utils.IOInterface;
 
 import java.text.MessageFormat;
+import java.util.Locale;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
 /**
  * Класс, осуществляющий ввод/вывод.
@@ -18,7 +20,8 @@ public class InputAndOutput implements IOInterface {
      * Ввод пользователя.
      */
     private boolean printMessages;
-    private LocalizationTool localizationTool;
+    private LocalizationTool localizationTool = new LocalizationTool(ResourceBundle.getBundle("client.clientUtils.bundles.gui", new Locale("ru", "RU")));
+
 
     /**
      * Конструктор.
@@ -51,14 +54,10 @@ public class InputAndOutput implements IOInterface {
         alert.getButtonTypes().clear();
         alert.getButtonTypes().addAll(yes, no);
         Optional<ButtonType> answer = alert.showAndWait();
-        if (answer.isPresent()) {
-            if (answer.get() == yes) return true;
-            else return false;
-        }
-        return false;
+        return answer.filter(buttonType -> buttonType == yes).isPresent();
     }
 
-    public void outputWithArgs(String s, String title, String header, String[] args, Alert.AlertType type) {
+    public void outputWithArgs(String s, String title, String header, String[] args, Alert.AlertType type, boolean isLong) {
         if (!args[0].equals("Empty")) {
             MessageFormat messageFormat = new MessageFormat(localizationTool.getResource().getString(s));
             String text = messageFormat.format(args);
@@ -66,6 +65,13 @@ public class InputAndOutput implements IOInterface {
             alert.setTitle(localizationTool.getString(title));
             alert.setHeaderText(localizationTool.getString(header));
             alert.setContentText(text);
+            if (isLong) {
+                TextArea area = new TextArea(text);
+                area.setWrapText(true);
+                area.setEditable(false);
+                alert.getDialogPane().setContent(area);
+                alert.setResizable(true);
+            }
             alert.showAndWait();
         } else output(s, title, header, type);
     }

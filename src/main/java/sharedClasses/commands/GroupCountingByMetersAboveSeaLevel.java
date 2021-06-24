@@ -51,7 +51,7 @@ public class GroupCountingByMetersAboveSeaLevel extends Command {
     public String print(List<City> cities) {
         StringBuilder result = new StringBuilder();
         for (City city : cities) {
-            result.append(city.toString()).append('\n');
+            result.append(city.getId()).append('\n');
         }
         return result.toString();
     }

@@ -6,9 +6,6 @@ import client.clientUtils.LocalizationTool;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import sharedClasses.elementsOfCollection.City;
@@ -17,11 +14,7 @@ import sharedClasses.elementsOfCollection.Coordinates;
 import sharedClasses.elementsOfCollection.Human;
 import sharedClasses.utils.WrapperForObjects;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
 
 public class PopUpWindowController {
     private Stage popUpStage;
@@ -167,19 +160,13 @@ public class PopUpWindowController {
         return s;
     }
 
-    private Date readEstablishmentDate() {
-        Date s = null;
-        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+    private LocalDate readEstablishmentDate() {
+        LocalDate s;
         String text = establishmentDate.getAccessibleText();
         if (text == null || text.equals("")) {
             return null;
         }
-        try {
-            s = formatter.parse(text);
-        } catch (ParseException e) {
-            inputAndOutput.output("WrongDate", "Warn", null, Alert.AlertType.ERROR);
-            flag = false;
-        }
+        s = LocalDate.parse(text);
         return s;
     }
 
@@ -268,43 +255,42 @@ public class PopUpWindowController {
         if (flag) {
             WrapperForObjects wrapObject = commandManager.addToCollection(city, "add");
             parentController.outputResult(wrapObject);
+            closeWindow();
             parentController.changeCollection(parentController.updateTable());
-            parentController.startVisualisation();
+            parentController.startVisualisation(false);
         }
-    }
-
-    public void close() {
-        popUpStage.close();
     }
 
     public void buttonAddIfMinClicked() {
         City city = processingFields();
         if (flag) {
+            closeWindow();
             WrapperForObjects wrapObject = commandManager.addToCollection(city, "add_if_min");
             parentController.outputResult(wrapObject);
             parentController.changeCollection(parentController.updateTable());
-            parentController.startVisualisation();
+            parentController.startVisualisation(false);
         }
     }
 
     public void buttonAddIfMaxClicked() {
         City city = processingFields();
         if (flag) {
+            closeWindow();
             WrapperForObjects wrapObject = commandManager.addToCollection(city, "add_if_max");
             parentController.outputResult(wrapObject);
             parentController.changeCollection(parentController.updateTable());
-            parentController.startVisualisation();
+            parentController.startVisualisation(false);
         }
     }
 
     public void buttonUpdateClicked(String arg) {
         City city = processingFields();
         if (flag) {
-            close();
+            closeWindow();
             WrapperForObjects wrapObject = commandManager.getInfoAboutCollectionWithArgs("update", arg, city);
             parentController.outputResult(wrapObject);
             parentController.changeCollection(parentController.updateTable());
-            parentController.startVisualisation();
+            parentController.startVisualisation(false);
         }
     }
 
@@ -338,6 +324,21 @@ public class PopUpWindowController {
         parentController = controller;
     }
 
+    public void closeWindow() {
+        name.clear();
+        x.clear();
+        y.clear();
+        area.clear();
+        population.clear();
+        establishmentDate.valueProperty().setValue(null);
+        climateBox.getSelectionModel().clearSelection();
+        metersAboveSeaLevel.clear();
+        agglomeration.clear();
+        age.clear();
+        popUpStage.close();
+    }
+
+
     public void changeLang() {
         buttonAdd.setText(localizationTool.getString("buttonAdd"));
         buttonBack.setText(localizationTool.getString("buttonBack"));
@@ -356,5 +357,19 @@ public class PopUpWindowController {
 
     public void setLocalizationTool(LocalizationTool localizationTool) {
         this.localizationTool = localizationTool;
+    }
+
+    public void fillForUpdate(City city) {
+        name.setText(city.getName());
+        x.setText(String.valueOf(city.getCoordinates().getX()));
+        y.setText(String.valueOf(city.getCoordinates().getY()));
+        area.setText(String.valueOf(city.getArea()));
+        population.setText(String.valueOf(city.getPopulation()));
+        if (city.getEstablishmentDate() != null)
+            establishmentDate.setValue(LocalDate.parse(String.valueOf(city.getEstablishmentDate())));
+        climateBox.setValue(city.getClimate());
+        metersAboveSeaLevel.setText(String.valueOf(city.getMetersAboveSeaLevel()));
+        agglomeration.setText(String.valueOf(city.getAgglomeration()));
+        age.setText(String.valueOf(city.getGovernor().getAge()));
     }
 }

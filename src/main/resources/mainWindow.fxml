@@ -23,7 +23,7 @@
                         onAction="#changeButtonClicked" prefHeight="25.0" prefWidth="180.0"
                         text="сменить пользователя"
                         style="-fx-background-color: #FFFFFF; -fx-text-fill: #3C4F6B; -fx-font-size: 15;"/>
-                <ComboBox fx:id="langButton" prefHeight="25.0" prefWidth="150.0"
+                <ComboBox fx:id="langButton" prefHeight="25.0" prefWidth="140.0"
                           style="-fx-background-color: #FFFFFF; -fx-text-fill: #3C4F6B; -fx-font-size: 15;"/>
             </ToolBar>
         </HBox>
@@ -73,18 +73,17 @@
                             <TableColumn fx:id="nameColumn" prefWidth="70.0" text="name"/>
                             <TableColumn fx:id="xColumn" prefWidth="50.0" text="x"/>
                             <TableColumn fx:id="yColumn" prefWidth="50.0" text="y"/>
-                            <TableColumn fx:id="creationDateColumn" prefWidth="120.0" text="creation date"/>
+                            <TableColumn fx:id="creationDateColumn" prefWidth="200.0" text="creation date"/>
                             <TableColumn fx:id="areaColumn" prefWidth="90.0" text="area"/>
                             <TableColumn fx:id="populationColumn" prefWidth="120.0"
                                          text="population"/>
                             <TableColumn fx:id="metersAboveSeaLevelColumn" prefWidth="195.0"
                                          text="metersAboveSeaLevel"/>
-                            <TableColumn fx:id="establishmentDateColumn" prefWidth="150.0" text="establishmentDate"/>
                             <TableColumn fx:id="agglomerationColumn" prefWidth="150.0" text="agglomeration"/>
                             <TableColumn fx:id="climateColumn" prefWidth="100.0" text="climate"/>
-                            <TableColumn fx:id="ageColumn" prefWidth="70.0"
+                            <TableColumn fx:id="ageColumn" prefWidth="100.0"
                                          text="age"/>
-                            <TableColumn fx:id="ownerColumn" text="owner"/>
+                            <TableColumn fx:id="ownerColumn" text="owner" prefWidth="100.0"/>
                         </columns>
                     </TableView>
                 </AnchorPane>

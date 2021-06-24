@@ -8,7 +8,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 
 public class AuthorizationWindowController {
 
@@ -41,7 +40,7 @@ public class AuthorizationWindowController {
             if (client.startUser(userLogin.getText(), password.getText(), false)) {
                 cityApplication.startMainWindow();
             }
-        } catch (IOException | NoSuchAlgorithmException e) {
+        } catch (IOException e) {
             inputAndOutput.output("FatalError", "Error", null, Alert.AlertType.ERROR);
         }
     }
@@ -51,13 +50,14 @@ public class AuthorizationWindowController {
             if (client.startUser(userLogin.getText(), password.getText(), true)) {
                 cityApplication.startMainWindow();
             }
-        } catch (IOException | NoSuchAlgorithmException e) {
+        } catch (IOException e) {
             inputAndOutput.output("FatalError", "Error", null, Alert.AlertType.ERROR);
         }
     }
 
     public void setLocalizationTool(LocalizationTool localizationTool) {
         this.localizationTool = localizationTool;
+        inputAndOutput.setLocalizationTool(localizationTool);
     }
 
     public void changeLang() {

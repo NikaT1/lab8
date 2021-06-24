@@ -84,7 +84,7 @@
                 <Font size="15.0"/>
             </font>
         </Label>
-        <DatePicker fx:id="establishmentDate" prefHeight="25.0" prefWidth="210.0"
+        <DatePicker fx:id="establishmentDate" prefHeight="25.0" prefWidth="210.0" editable="false"
                     style="-fx-background-color: #F8F4FC;" GridPane.columnIndex="4" GridPane.rowIndex="3"/>
         <Label fx:id="climateLabel" layoutX="10.0" layoutY="614.0" prefHeight="34.0"
                prefWidth="241.0" text="Климат:" GridPane.columnIndex="1" GridPane.rowIndex="4" wrapText="true">

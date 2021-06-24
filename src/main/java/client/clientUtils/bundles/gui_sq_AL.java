@@ -98,6 +98,10 @@ public class gui_sq_AL extends ListResourceBundle {
             {"addIfMinButton", "shtoni nëse më pak"},
             {"addButton", "shtoj"},
             {"creationDateColumn", "Data e krijimit"},
-            {"ownerColumn", "Pronar"}
+            {"ownerColumn", "Pronar"},
+            {"ScriptOk", "Skripti ekzekutohet"},
+            {"StringObject", "Emri: {0}, x: {1}, y: {2}, data e krijimit: {3}, zona e territorit: {4}," +
+                    " numri i njehsorëve mbi nivelin e detit: {6}, Fondacioni Data: {7}, Zona e Agglomerimit:" +
+                    " {8}, Klima: {9}, Guvernatori Mosha: {10}, Krijuesi: {11}."}
     };
 }

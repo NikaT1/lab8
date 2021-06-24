@@ -6,6 +6,7 @@ import sharedClasses.utils.*;
 
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.NoSuchElementException;
 
 /**
@@ -33,6 +34,7 @@ public class Add extends Command {
         Status status = Status.ERROR;
         try {
             City city = this.getCity();
+            city.setCreationDate(LocalDate.now());
             city.setOwner(getUser().getLogin());
             synchronized (priorityQueue.getCollection()) {
                 priorityQueue.addToCollection(city, getUser());
